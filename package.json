@@ -1,4 +1,16 @@
 {
   "name": "vi-kanban",
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
+    "dev:client": "yarn workspace client dev",
+    "dev:server": "yarn workspace server dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
 }
