@@ -6,6 +6,8 @@ import { store } from './store';
 
 import { App } from './App';
 
+import './styles/normalize.css';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
