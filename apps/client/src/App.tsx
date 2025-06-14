@@ -1,14 +1,15 @@
 import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import type { RootState } from "@/store";
+import { useDispatch } from "react-redux";
 
 import { useGetProjectsQuery } from "@/store/features/project/projectSlice";
 import { setViMode } from "@/store/features/vi/viSlice.ts";
 
+import { Footer } from "@/components/footer";
+
+import * as styles from './app.styles';
+
 export const App = () => {
-  const { data: projects, isLoading } = useGetProjectsQuery();
-  const { vi } = useSelector((state: RootState) => state);
+  const { data: projects, isLoading, isError } = useGetProjectsQuery();
   const dispatch = useDispatch();
 
   const handleKeyboard = useCallback((e: KeyboardEvent) => {
@@ -28,10 +29,10 @@ export const App = () => {
   }, [handleKeyboard]);
 
   return (
-    <div>
+    <main css={styles.main}>
       <h1>vi-kanban client app</h1>
       {isLoading || !projects ? (
-        <div>Loading...</div>
+        <div>{isError ? 'Failed to load Projects' : 'Loading...'}</div>
       ) : (
         <>
           <h2>Projects: </h2>
@@ -40,17 +41,7 @@ export const App = () => {
           ))}
         </>
       )}
-      <footer>
-        {vi.enabled && (
-          <div>
-            {vi.mode === 'normal' ? (
-              <span>Normal</span>
-            ) : (
-              <span>Insert</span>
-            )}
-          </div>
-        )}
-      </footer>
-    </div>
+      <Footer />
+    </main>
   );
 };
