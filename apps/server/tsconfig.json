@@ -5,6 +5,7 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowImportingTsExtensions": false,
+    "strictNullChecks": true,
     "noEmit": true,
     "paths": {
       "@shared/*": ["../../packages/shared/src/*"]
