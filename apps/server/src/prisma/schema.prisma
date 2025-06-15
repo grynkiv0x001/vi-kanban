@@ -17,4 +17,26 @@ datasource db {
 model Project {
   id   Int    @id @default(autoincrement())
   name String
+  lists List[]
+  tasks Task[]
+}
+
+model List {
+  id Int @id @default(autoincrement())
+  name String
+  position Int
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+  tasks Task[]
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  position Int
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+  list List @relation(fields: [listId], references: [id])
+  listId Int
 }
