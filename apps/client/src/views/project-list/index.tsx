@@ -1,4 +1,8 @@
-import { useGetProjectsQuery } from "@/store/features/project/projectSlice.ts";
+import { Link } from 'react-router';
+
+import { useGetProjectsQuery } from '@/store/features/project/projectSlice.ts';
+
+import { toKebabCase } from '@/helpers/to-kebap.ts';
 
 import * as styles from './project-list.styles';
 
@@ -19,10 +23,15 @@ export const ProjectList = () => {
 
   return (
     <section css={styles.projects}>
-      <h2>Projects: </h2>
-      {projects?.map((project) => (
-        <div key={project.id}>{project.name}</div>
-      ))}
+      {projects?.map((project) => {
+        const slug = toKebabCase(project.name);
+
+        return (
+          <Link key={project.id} to={`/projects/${project.id}/${slug}`}>
+            {project.name}
+          </Link>
+        );
+      })}
     </section>
   );
 };

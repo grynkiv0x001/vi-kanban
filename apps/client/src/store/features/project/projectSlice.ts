@@ -1,5 +1,5 @@
-import type { Project } from "shared/src/types";
-import { baseApi } from "@/store/services/baseApi";
+import type { Project } from 'shared/src/types';
+import { baseApi } from '@/store/services/baseApi';
 
 export const projectApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -7,9 +7,13 @@ export const projectApi = baseApi.injectEndpoints({
       query: () => 'project',
       providesTags: ['Project'],
     }),
+    getProject: build.query<Project, string>({
+      query: (id) => `project/${id}`,
+    }),
   }),
 });
 
 export const {
   useGetProjectsQuery,
+  useGetProjectQuery,
 } = projectApi;

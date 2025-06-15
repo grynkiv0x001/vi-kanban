@@ -1,7 +1,7 @@
-import { type ReactNode, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { type ReactNode, useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { setViMode } from "@/store/features/vi/viSlice";
+import { setViMode } from '@/store/features/vi/viSlice';
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
@@ -20,9 +20,9 @@ export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyboard);
+    document.addEventListener('keydown', handleKeyboard);
 
-    return () => document.removeEventListener("keydown", handleKeyboard);
+    return () => document.removeEventListener('keydown', handleKeyboard);
   }, [handleKeyboard]);
 
   return children;
