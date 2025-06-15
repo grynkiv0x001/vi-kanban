@@ -12,6 +12,6 @@ router.post('/', controller.postProject);
 router.put('/:id', controller.putProject);
 router.delete('/:id', controller.deleteProject);
 
-router.use('/:id/list', listRouter);
+router.use('/:projectId/list', listRouter);
 
 export default router;

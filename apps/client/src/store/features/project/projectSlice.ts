@@ -1,7 +1,24 @@
 import type { Project } from 'shared/src/types';
 import { baseApi } from '@/store/services/baseApi';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export const projectApi = baseApi.injectEndpoints({
+interface IProjectState {
+  currentProject?: Project;
+}
+
+const initialState: IProjectState = {};
+
+const projectSlice = createSlice({
+  name: 'project',
+  initialState,
+  reducers: {
+    setCurrentProject: (state, action: PayloadAction<Project | undefined>) => {
+      state.currentProject = action.payload;
+    },
+  },
+});
+
+const projectApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
       query: () => 'project',
@@ -13,7 +30,11 @@ export const projectApi = baseApi.injectEndpoints({
   }),
 });
 
+export const { setCurrentProject } = projectSlice.actions;
+
 export const {
   useGetProjectsQuery,
   useGetProjectQuery,
 } = projectApi;
+
+export default projectSlice.reducer;

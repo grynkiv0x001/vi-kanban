@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
-    "generate": "prisma generate --schema=src/prisma/schema.prisma"
+    "generate": "prisma generate --schema=src/prisma/schema.prisma",
+    "lint": "eslint .",
+    "format": "eslint . --fix"
   },
   "type": "module",
   "dependencies": {
@@ -15,11 +17,15 @@
     "zod": "^3.25.64"
   },
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
     "@types/cors": "^2",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.1",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
     "prisma": "6.9.0",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.0"
   }
 }

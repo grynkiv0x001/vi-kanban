@@ -1,10 +1,17 @@
 import { Request, Response } from 'express';
 
 import * as service from '../services/list.service';
-import {createListSchema} from "../schemas/list.schema";
+import { createListSchema } from '../schemas/list.schema';
 
-export const getLists = async (_: Request, res: Response) => {
-  const lists = await service.getProjectLists();
+export const getLists = async (req: Request, res: Response) => {
+  const projectId = Number(req.params.projectId);
+
+  if (isNaN(projectId)) {
+    res.status(400).json({ message: 'Invalid or missing project ID' });
+    return;
+  }
+
+  const lists = await service.getProjectLists(projectId);
   res.json(lists);
 };
 
@@ -21,7 +28,7 @@ export const getList = async (req: Request, res: Response) => {
 };
 
 export const postList = async (req: Request, res: Response) => {
-  const projectId = Number(req.params.id);
+  const projectId = Number(req.params.projectId);
 
   if (isNaN(projectId)) {
     res.status(400).json({ message: 'Invalid or missing project ID' });
@@ -41,9 +48,13 @@ export const postList = async (req: Request, res: Response) => {
   const list = await service.createList(result.data);
 
   res.status(201).json(list);
-}
+};
 
 // TODO: add missing PUT & DELETE
 export const putList = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-}
+};
+
+export const deleteList = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+};

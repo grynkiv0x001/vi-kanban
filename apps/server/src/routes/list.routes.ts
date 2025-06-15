@@ -10,7 +10,7 @@ router.get('/', controller.getLists);
 router.get('/:id', controller.getList);
 router.post('/', controller.postList);
 router.put('/:id', controller.putList);
-// router.delete('/:id', controller.deleteList);
+router.delete('/:id', controller.deleteList);
 
 router.use('/:id/tasks', taskRouter);
 
