@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
-import * as service from '../services/task.service';
+import * as service from '../services/tasks.service';
 
 export const getTasks = async (_: Request, res: Response) => {
   const tasks = await service.getTasks();
   res.json(tasks);
 };
 
-export const getTaskById = async (req: Request, res: Response) => {
+export const getTask = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const task = await service.getTaskById(id);
 

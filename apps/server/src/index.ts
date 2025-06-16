@@ -1,7 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 
-import project from './routes/project.routes';
+import swaggerUi from 'swagger-ui-express';
+
+import { swaggerSpec } from './swagger';
+
+import projects from './routes/projects.routes';
 
 const app = express();
 
@@ -18,7 +22,9 @@ app.get('/', (_, res) => {
   res.send('vi-kanban API\n');
 });
 
-app.use('/project', project);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use('/projects', projects);
 
 app.listen(3001, () => {
   console.log('Server is running on port 3001');

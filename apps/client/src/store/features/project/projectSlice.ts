@@ -21,11 +21,11 @@ const projectSlice = createSlice({
 const projectApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
-      query: () => 'project',
+      query: () => 'projects',
       providesTags: ['Project'],
     }),
     getProject: build.query<Project, string>({
-      query: (id) => `project/${id}`,
+      query: (id) => `projects/${id}`,
     }),
   }),
 });
