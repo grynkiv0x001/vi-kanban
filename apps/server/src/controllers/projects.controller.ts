@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import * as service from '../services/project.service';
+import * as service from '../services/projects.service';
 import { createProjectSchema, updateProjectSchema } from '../schemas/project.schema';
 
 export const getProjects = async (_: Request, res: Response) => {
@@ -20,7 +20,7 @@ export const getProject = async (req: Request, res: Response) => {
   res.json(project);
 };
 
-export const postProject = async (req: Request, res: Response) => {
+export const createProject = async (req: Request, res: Response) => {
   const result = createProjectSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -28,12 +28,15 @@ export const postProject = async (req: Request, res: Response) => {
     return;
   }
 
-  const project = await service.createProject(result.data.name);
-
-  res.status(201).json(project);
+  try {
+    const project = await service.createProject(result.data.name);
+    res.status(201).json(project);
+  } catch {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
 
-export const putProject = async (req: Request, res: Response) => {
+export const updateProject = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const result = updateProjectSchema.safeParse(req.body);
 

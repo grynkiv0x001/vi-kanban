@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import taskRouter from './task.routes';
+import tasksRouter from './tasks.routes';
 
-import * as controller from '../controllers/list.controller';
+import * as controller from '../controllers/lists.controller';
 
 const router = Router({ mergeParams: true });
 
@@ -12,6 +12,6 @@ router.post('/', controller.postList);
 router.put('/:id', controller.putList);
 router.delete('/:id', controller.deleteList);
 
-router.use('/:id/tasks', taskRouter);
+router.use('/:id/tasks', tasksRouter);
 
 export default router;

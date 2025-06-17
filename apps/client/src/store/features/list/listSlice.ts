@@ -4,7 +4,7 @@ import { baseApi } from '@/store/services/baseApi';
 export const listApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProjectLists: build.query<List[], string>({
-      query: (id) => `project/${id}/list`,
+      query: (id) => `projects/${id}/lists`,
       providesTags: ['List'],
     }),
   }),

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import * as service from '../services/list.service';
+import * as service from '../services/lists.service';
 import { createListSchema } from '../schemas/list.schema';
 
 export const getLists = async (req: Request, res: Response) => {

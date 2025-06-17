@@ -6,7 +6,8 @@
     "migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
     "generate": "prisma generate --schema=src/prisma/schema.prisma",
     "lint": "eslint .",
-    "format": "eslint . --fix"
+    "format": "eslint . --fix",
+    "test": "vitest --run"
   },
   "type": "module",
   "dependencies": {
@@ -21,11 +22,16 @@
     "@types/cors": "^2",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.1",
+    "@types/swagger-jsdoc": "^6",
+    "@vitest/coverage-v8": "^3.2.3",
     "eslint": "^9.29.0",
     "globals": "^16.2.0",
     "prisma": "6.9.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0"
+    "typescript-eslint": "^8.34.0",
+    "vitest": "^3.2.3"
   }
 }
