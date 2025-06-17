@@ -1,15 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { baseApi } from '@/store/services/baseApi';
+import { baseApi } from '@/store/services/base.api';
 
-import viReducer from '@/store/features/vi/viSlice';
-import projectReducer from '@/store/features/project/projectSlice';
+import {
+  projectsReducer,
+  tasksReducer,
+  viReducer,
+} from '@/store/features';
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     vi: viReducer,
-    project: projectReducer,
+    project: projectsReducer,
+    tasks: tasksReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(baseApi.middleware);

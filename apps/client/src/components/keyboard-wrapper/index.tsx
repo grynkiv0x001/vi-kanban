@@ -1,7 +1,7 @@
 import { type ReactNode, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setViMode } from '@/store/features/vi/viSlice';
+import { setViMode } from '@/store/features/vi';
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();

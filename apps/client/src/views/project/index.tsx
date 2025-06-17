@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import type { RootState } from '@/store';
-import { useGetProjectListsQuery } from '@/store/features/list/listSlice.ts';
+import { useGetProjectListsQuery } from '@/store/features/lists';
 
 import { List } from '@/views/list';
 

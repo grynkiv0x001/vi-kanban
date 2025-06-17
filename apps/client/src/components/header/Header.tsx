@@ -2,10 +2,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { BluePrintIcon } from '@/assets/icons';
-import { useUpdateProjectMutation } from '@/store/features/project/projectSlice';
-import { setCurrentProject } from '@/store/features/project/projectSlice';
 
 import type { RootState } from '@/store';
+import { useUpdateProjectMutation } from '@/store/features/projects';
+import { setCurrentProject } from '@/store/features/projects';
+
 import * as styles from './header.styles';
 
 export const Header = () => {
@@ -15,9 +16,7 @@ export const Header = () => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
   useEffect(() => {
-    if (currentProject?.name !== projectName) {
-      setProjectName(currentProject?.name ?? '');
-    }
+    setProjectName(currentProject?.name ?? '');
   }, [currentProject]);
 
   const handleBlur = async () => {

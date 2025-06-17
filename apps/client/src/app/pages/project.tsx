@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { setCurrentProject, useGetProjectQuery } from '@/store/features/project/projectSlice';
+import { setCurrentProject, useGetProjectQuery } from '@/store/features/projects';
 
 import { ProjectView } from '@/views/project';
 

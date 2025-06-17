@@ -1,5 +1,5 @@
 import type { List } from 'shared/src/types';
-import { baseApi } from '@/store/services/baseApi';
+import { baseApi } from '@/store/services/base.api';
 
 export const listApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

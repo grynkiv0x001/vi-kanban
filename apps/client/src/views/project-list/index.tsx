@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { useGetProjectsQuery } from '@/store/features/project/projectSlice.ts';
+import { useGetProjectsQuery } from '@/store/features/projects';
 
 import * as styles from './project-list.styles';
 
