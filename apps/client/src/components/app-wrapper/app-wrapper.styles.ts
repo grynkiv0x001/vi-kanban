@@ -46,7 +46,7 @@ export const wrapper = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #FFF7F8;
+  background-color: #f8f9fa;
   
   & > section {
     overflow: auto;

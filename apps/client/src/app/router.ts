@@ -10,6 +10,7 @@ import { Home } from '@/app/pages/home';
 // Projects
 import { Projects } from '@/app/pages/projects';
 import { Project } from '@/app/pages/project';
+import { NotFound } from '@/app/pages/not-found.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -25,8 +26,12 @@ export const router = createBrowserRouter([
         Component: Projects,
       },
       {
-        path: 'projects/:id/:name',
+        path: 'projects/:id',
         Component: Project,
+      },
+      {
+        path: '*',
+        Component: NotFound,
       },
     ],
   },

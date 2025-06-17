@@ -5,5 +5,5 @@ export const footer = css`
   margin-block-start: auto;
 
   background-color: #0B0500;
-  color: #FFF7F8;
+  color: #f8f9fa;
 `;

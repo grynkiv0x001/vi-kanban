@@ -22,10 +22,19 @@ const projectApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
       query: () => 'projects',
-      providesTags: ['Project'],
+      providesTags: ['Projects'],
     }),
     getProject: build.query<Project, string>({
       query: (id) => `projects/${id}`,
+      providesTags: ['Projects'],
+    }),
+    updateProject: build.mutation<Project, Project>({
+      query: (project) => ({
+        url: `projects/${project.id}`,
+        method: 'PUT',
+        body: project,
+      }),
+      invalidatesTags: ['Projects'],
     }),
   }),
 });
@@ -35,6 +44,7 @@ export const { setCurrentProject } = projectSlice.actions;
 export const {
   useGetProjectsQuery,
   useGetProjectQuery,
+  useUpdateProjectMutation,
 } = projectApi;
 
 export default projectSlice.reducer;

@@ -8,10 +8,10 @@ export const header = css`
   height: 42px;
 
   background-color: #0B0500;
-  color: #FFF7F8;
+  color: #f8f9fa;
   
   a {
-    color: #FFF7F8;
+    color: #f8f9fa;
   }
 `;
 
@@ -38,12 +38,12 @@ export const projectName = css`
   input {
     background-color: transparent;
     border: none;
-    color: #FFF7F8;
+    color: #f8f9fa;
     outline: none;
   }
 `;
 
 export const searchBar = css`
-  background-color: #FFF7F8;
+  background-color: #f8f9fa;
   border: none;
 `;

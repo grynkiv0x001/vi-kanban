@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { useGetProjectListsQuery } from '@/store/features/list/listSlice';
 import { setCurrentProject, useGetProjectQuery } from '@/store/features/project/projectSlice';
+
+import { ProjectView } from '@/views/project';
 
 export const Project = () => {
   const { id: projectId = '' } = useParams<{ id: string }>();
   const { data: project, isLoading: isProjectLoading, isError: isProjectError } = useGetProjectQuery(projectId);
-  const { data: lists } = useGetProjectListsQuery(projectId);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,12 +22,6 @@ export const Project = () => {
   }, [dispatch, project, isProjectLoading, isProjectError]);
 
   return (
-    <section>
-      {lists?.map((list) => (
-        <dl key={list.id}>
-          <dt>{list.name}</dt>
-        </dl>
-      ))}
-    </section>
+    <ProjectView />
   );
 };

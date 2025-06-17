@@ -2,8 +2,6 @@ import { Link } from 'react-router';
 
 import { useGetProjectsQuery } from '@/store/features/project/projectSlice.ts';
 
-import { toKebabCase } from '@/helpers/to-kebap.ts';
-
 import * as styles from './project-list.styles';
 
 export const ProjectList = () => {
@@ -23,15 +21,11 @@ export const ProjectList = () => {
 
   return (
     <section css={styles.projects}>
-      {projects?.map((project) => {
-        const slug = toKebabCase(project.name);
-
-        return (
-          <Link key={project.id} to={`/projects/${project.id}/${slug}`}>
-            {project.name}
-          </Link>
-        );
-      })}
+      {projects?.map((project) => (
+        <Link key={project.id} to={`/projects/${project.id}`}>
+          {project.name}
+        </Link>
+      ))}
     </section>
   );
 };
