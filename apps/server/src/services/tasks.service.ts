@@ -6,7 +6,7 @@ import { createTaskSchema, updateTaskSchema } from '../schemas/task.schema';
 type CreateTaskInput = z.infer<typeof createTaskSchema>;
 type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
 
-export const getTasks = () => prisma.task.findMany();
+export const getTasks = (listId: number) => prisma.task.findMany({ where: { listId } });
 
 export const getTaskById = (id: number) =>
   prisma.task.findUnique({ where: { id } });

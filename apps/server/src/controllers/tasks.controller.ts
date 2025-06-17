@@ -3,8 +3,15 @@ import { Request, Response } from 'express';
 import { createTaskSchema, updateTaskSchema } from '../schemas/task.schema';
 import * as service from '../services/tasks.service';
 
-export const getTasks = async (_: Request, res: Response) => {
-  const tasks = await service.getTasks();
+export const getTasks = async (req: Request, res: Response) => {
+  const listId = Number(req.params.listId);
+
+  if (isNaN(listId)) {
+    res.status(400).json({ message: 'Invalid or missing list ID' });
+    return;
+  }
+
+  const tasks = await service.getTasks(listId);
   res.json(tasks);
 };
 

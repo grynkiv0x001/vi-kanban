@@ -7,9 +7,34 @@ export const listApi = baseApi.injectEndpoints({
       query: (id) => `projects/${id}/lists`,
       providesTags: ['Lists'],
     }),
+    createList: build.mutation<List, Omit<List, 'id'>>({
+      query: (body) => ({
+        url: `projects/${body.projectId}/lists`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Lists'],
+    }),
+    updateList: build.mutation<List, List>({
+      query: (body) => ({
+        url: `projects/${body.projectId}/lists/${body.id}`,
+        method: 'PUT',
+        body,
+      }),
+    }),
+    deleteList: build.mutation<List, Omit<List, 'name'>>({
+      query: ({ id, projectId }) => ({
+        url: `projects/${projectId}/lists/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Lists'],
+    }),
   }),
 });
 
 export const {
   useGetProjectListsQuery,
+  useCreateListMutation,
+  useUpdateListMutation,
+  useDeleteListMutation,
 } = listApi;
