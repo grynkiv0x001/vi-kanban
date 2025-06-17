@@ -2,9 +2,9 @@ import { ProjectList } from '@/views/project-list';
 
 export const Projects = () => {
   return (
-    <div>
+    <section>
       <h2>Your Projects</h2>
       <ProjectList />
-    </div>
+    </section>
   );
 };

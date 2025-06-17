@@ -1,6 +1,8 @@
-import * as styles from './footer.styles';
 import { useSelector } from 'react-redux';
+
 import type { RootState } from '@/store';
+
+import * as styles from './footer.styles';
 
 export const Footer = () => {
   const { vi } = useSelector((state: RootState) => state);

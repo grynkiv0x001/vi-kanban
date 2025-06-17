@@ -1,12 +1,9 @@
 import { css } from '@emotion/react';
 
 export const footer = css`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   padding: 8px;
-  
-  background-color: #282828;
-  color: #fbf1c7;
+  margin-block-start: auto;
+
+  background-color: #0B0500;
+  color: #FFF7F8;
 `;

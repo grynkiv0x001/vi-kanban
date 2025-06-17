@@ -22,12 +22,12 @@ export const Project = () => {
   }, [dispatch, project, isProjectLoading, isProjectError]);
 
   return (
-    <div>
+    <section>
       {lists?.map((list) => (
         <dl key={list.id}>
           <dt>{list.name}</dt>
         </dl>
       ))}
-    </div>
+    </section>
   );
 };
