@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
+import { createListSchema, updateListSchema } from '../schemas/list.schema';
 import * as service from '../services/lists.service';
-import { createListSchema } from '../schemas/list.schema';
 
 export const getLists = async (req: Request, res: Response) => {
   const projectId = Number(req.params.projectId);
@@ -27,7 +27,7 @@ export const getList = async (req: Request, res: Response) => {
   res.json(list);
 };
 
-export const postList = async (req: Request, res: Response) => {
+export const createList = async (req: Request, res: Response) => {
   const projectId = Number(req.params.projectId);
 
   if (isNaN(projectId)) {
@@ -50,11 +50,29 @@ export const postList = async (req: Request, res: Response) => {
   res.status(201).json(list);
 };
 
-// TODO: add missing PUT & DELETE
-export const putList = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+export const updateList = async (req: Request, res: Response) => {
+  const result = updateListSchema.safeParse(req.body);
+
+  if (!result.success) {
+    res.status(400).json(result.error);
+    return;
+  }
+
+  try {
+    const updated = await service.updateList(result.data);
+    res.json(updated);
+  } catch {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
 
 export const deleteList = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
+
+  try {
+    await service.deleteList(id);
+    res.status(204).send();
+  } catch {
+    res.status(404).json({ message: 'List not found' });
+  }
 };

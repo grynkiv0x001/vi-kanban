@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import * as service from '../services/projects.service';
 import { createProjectSchema, updateProjectSchema } from '../schemas/project.schema';
+import * as service from '../services/projects.service';
 
 export const getProjects = async (_: Request, res: Response) => {
   const projects = await service.getAllProjects();

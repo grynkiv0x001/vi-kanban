@@ -8,10 +8,10 @@ const router = Router({ mergeParams: true });
 
 router.get('/', controller.getLists);
 router.get('/:id', controller.getList);
-router.post('/', controller.postList);
-router.put('/:id', controller.putList);
+router.post('/', controller.createList);
+router.put('/:id', controller.updateList);
 router.delete('/:id', controller.deleteList);
 
-router.use('/:id/tasks', tasksRouter);
+router.use('/:listId/tasks', tasksRouter);
 
 export default router;
