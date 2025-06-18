@@ -1,11 +1,16 @@
+import React from 'react';
 import { Link } from 'react-router';
 
-import { useGetProjectsQuery } from '@/store/features/projects';
+import { MinusSmallIcon } from '@/assets/icons';
+
+import { useCreateProjectMutation, useDeleteProjectMutation, useGetProjectsQuery } from '@/store/features/projects';
 
 import * as styles from './project-list.styles';
 
 export const ProjectList = () => {
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
+  const [createProject] = useCreateProjectMutation();
+  const [deleteProject] = useDeleteProjectMutation();
 
   if (isLoading) {
     return (
@@ -19,6 +24,19 @@ export const ProjectList = () => {
     );
   }
 
+  const handleProjectCreation = async () => {
+    await createProject({
+      name: 'Test Project',
+    });
+  };
+
+  const handleProjectRemoval = async (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    await deleteProject(id);
+  };
+
   return (
     <section css={styles.projects}>
       {projects?.map((project) => (
@@ -28,8 +46,18 @@ export const ProjectList = () => {
           css={styles.project}
         >
           {project.name}
+
+          <button
+            css={styles.removeProjectBtn}
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleProjectRemoval(e, project.id)}
+          >
+            <MinusSmallIcon width={24} height={24} />
+          </button>
         </Link>
       ))}
+      <button css={styles.addProjectBtn} onClick={handleProjectCreation}>
+        + Add project
+      </button>
     </section>
   );
 };

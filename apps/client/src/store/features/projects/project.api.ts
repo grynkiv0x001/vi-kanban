@@ -11,11 +11,26 @@ const projectApi = baseApi.injectEndpoints({
       query: (id) => `projects/${id}`,
       providesTags: ['Projects'],
     }),
+    createProject: build.mutation<Project, Omit<Project, 'id'>>({
+      query: (body) => ({
+        url: 'projects/',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Projects'],
+    }),
     updateProject: build.mutation<Project, Project>({
-      query: (project) => ({
-        url: `projects/${project.id}`,
+      query: (body) => ({
+        url: `projects/${body.id}`,
         method: 'PUT',
-        body: project,
+        body,
+      }),
+      invalidatesTags: ['Projects'],
+    }),
+    deleteProject: build.mutation<undefined, number>({
+      query: (id) => ({
+        url: `projects/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Projects'],
     }),
@@ -25,5 +40,7 @@ const projectApi = baseApi.injectEndpoints({
 export const {
   useGetProjectsQuery,
   useGetProjectQuery,
+  useCreateProjectMutation,
   useUpdateProjectMutation,
+  useDeleteProjectMutation,
 } = projectApi;
