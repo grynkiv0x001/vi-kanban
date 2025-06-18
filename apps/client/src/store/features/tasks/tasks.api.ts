@@ -21,6 +21,14 @@ const tasksApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Tasks'],
     }),
+    updateTask: build.mutation<Task, Task>({
+      query: (body) => ({
+        url: `projects/${body.projectId}/lists/${body.listId}/tasks/${body.id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Tasks'],
+    }),
     deleteTask: build.mutation<Task, Omit<Task, 'name'>>({
       query: ({ id, projectId, listId }) => ({
         url: `projects/${projectId}/lists/${listId}/tasks/${id}`,
@@ -34,5 +42,6 @@ const tasksApi = baseApi.injectEndpoints({
 export const {
   useGetListTasksQuery,
   useCreateTaskMutation,
+  useUpdateTaskMutation,
   useDeleteTaskMutation,
 } = tasksApi;

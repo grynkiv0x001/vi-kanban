@@ -34,6 +34,7 @@ export const global = css`
 
   * {
     font-family: 'MapleMono', Helvetica, Arial, sans-serif;
+    caret-color: #d3869b;
   }
 
   html, body, #root {

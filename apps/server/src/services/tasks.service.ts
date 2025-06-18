@@ -9,7 +9,17 @@ type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
 export const getTasks = (listId: number) => prisma.task.findMany({ where: { listId } });
 
 export const getTasksByListIds = (listIds: number[]) =>
-  prisma.task.findMany({ where: { listId: { in: listIds } } });
+  prisma.task.findMany({
+    where: { listId: { in: listIds } },
+    orderBy: [
+      {
+        position: 'asc',
+      },
+      {
+        id: 'asc',
+      },
+    ],
+  });
 
 export const getTaskById = (id: number) =>
   prisma.task.findUnique({ where: { id } });

@@ -1,1 +1,1 @@
-export * from './list.api';
+export * from './lists.api';

@@ -52,4 +52,10 @@ export const removeProjectBtn = css`
   background-color: #e5e5e5;
   border: none;
   cursor: pointer;
+  
+  &:hover {
+    svg {
+      fill: #d3869b;
+    }
+  }
 `;

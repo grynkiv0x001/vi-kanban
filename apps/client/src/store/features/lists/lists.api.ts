@@ -1,7 +1,7 @@
 import type { List } from 'shared/src/types';
 import { baseApi } from '@/store/services/base.api';
 
-export const listApi = baseApi.injectEndpoints({
+export const listsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProjectLists: build.query<List[], number>({
       query: (id) => `projects/${id}/lists`,
@@ -21,6 +21,7 @@ export const listApi = baseApi.injectEndpoints({
         method: 'PUT',
         body,
       }),
+      invalidatesTags: ['Lists'],
     }),
     deleteList: build.mutation<List, Omit<List, 'name'>>({
       query: ({ id, projectId }) => ({
@@ -37,4 +38,4 @@ export const {
   useCreateListMutation,
   useUpdateListMutation,
   useDeleteListMutation,
-} = listApi;
+} = listsApi;

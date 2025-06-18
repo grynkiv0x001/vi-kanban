@@ -1,27 +1,47 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { List as ListPropType } from 'shared/src/types';
 
-import { DeleteIcon, TrashIcon } from '@/assets/icons';
+import { TrashIcon } from '@/assets/icons';
 
 import type { RootState } from '@/store';
-import { selectTasksByListId, useCreateTaskMutation, useDeleteTaskMutation } from '@/store/features/tasks';
-import { useDeleteListMutation } from '@/store/features/lists';
+import { selectTasksByListId, useCreateTaskMutation } from '@/store/features/tasks';
+import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/lists';
+
+import { Task } from '@/views/task';
 
 import * as styles from './list.styles';
 
-export const List = ({ id, projectId, name }: ListPropType) => {
+export const List = (list: ListPropType) => {
+  const { id, projectId, name } = list;
+
   const [removeList, { isLoading }] = useDeleteListMutation();
-  const [removeTask] = useDeleteTaskMutation();
   const [createTask] = useCreateTaskMutation();
+  const [updateList, { isLoading: updating }] = useUpdateListMutation();
+
   const tasks = useSelector((state: RootState) => selectTasksByListId(state, id));
+
+  const [listName, setListName] = useState<string>(name);
+
+  useEffect(() => {
+    setListName(name);
+  }, [name]);
+
+  const handleBlur = async () => {
+    if (listName === name) {
+      return;
+    }
+
+    try {
+      await updateList({ ...list, name: listName }).unwrap();
+    } catch (error) {
+      console.error('Failed to rename list:', error);
+    }
+  };
 
   const handleListRemoval = async () => {
     removeList({ id, projectId });
-  };
-
-  const handleTaskRemoval = async (taskId: number) => {
-    removeTask({ id: taskId, projectId, listId: id });
   };
 
   const handleTaskCreation = async () => {
@@ -31,18 +51,21 @@ export const List = ({ id, projectId, name }: ListPropType) => {
   return (
     <dl css={styles.list}>
       <dt css={styles.head}>
-        <span>{name}</span>
+        <input
+          required
+          type="text"
+          value={listName}
+          onChange={(e) => setListName(e.target.value)}
+          onBlur={handleBlur}
+          disabled={updating}
+          css={styles.name}
+        />
         <button css={styles.removeListBtn} onClick={handleListRemoval} disabled={isLoading}>
           <TrashIcon width={16} height={16} />
         </button>
       </dt>
       {tasks?.map((task) => (
-        <dd key={task.id} css={styles.task}>
-          {task.name}
-          <button onClick={() => handleTaskRemoval(task.id)}>
-            <DeleteIcon width={16} height={16} />
-          </button>
-        </dd>
+        <Task key={task.id} {...task} />
       ))}
       <dd css={styles.createTaskBtn}>
         <button onClick={handleTaskCreation}>
