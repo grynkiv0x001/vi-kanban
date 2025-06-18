@@ -29,4 +29,27 @@ export const removeListBtn = css`
 export const task = css`
   margin: 0;
   padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  button {
+    background-color: transparent;
+    border: none;
+    opacity: 0;
+    cursor: pointer;
+    
+    svg {
+      fill: #d3869b;
+    }
+  }
+  
+  &:hover button {
+    opacity: 1;
+  }
+`;
+
+export const createTaskBtn = css`
+  margin: 0;
+  padding: 8px;
 `;

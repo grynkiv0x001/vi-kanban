@@ -40,6 +40,10 @@ export const global = css`
     height: 100%;
     margin: 0;
   }
+  
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const wrapper = css`
@@ -51,5 +55,6 @@ export const wrapper = css`
   & > section {
     overflow: auto;
     height: 100%;
+    padding: 16px;
   }
 `;

@@ -4,6 +4,7 @@ import type { Task } from 'shared/src/types.ts';
 
 interface ITasksState {
   currentTask?: Task;
+  projectTasks?: Task[];
 }
 
 const initialState: ITasksState = {};
@@ -15,9 +16,12 @@ const tasksSlice = createSlice({
     setCurrentTask: (state, action: PayloadAction<Task | undefined>) => {
       state.currentTask = action.payload;
     },
+    setProjectTasks: (state, action: PayloadAction<Task[]>) => {
+      state.projectTasks = action.payload;
+    },
   },
 });
 
-export const { setCurrentTask } = tasksSlice.actions;
+export const { setCurrentTask, setProjectTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

@@ -15,6 +15,27 @@ export const getTasks = async (req: Request, res: Response) => {
   res.json(tasks);
 };
 
+export const getAllTasks = async (req: Request, res: Response) => {
+  const ids = req.query.ids;
+
+  const listIds = Array.isArray(ids)
+    ? ids.map(Number).filter((id) => !isNaN(id))
+    : [Number(ids)].filter((id) => !isNaN(id));
+
+  if (listIds.length === 0) {
+    res.status(400).json({ message: 'Missing or invalid list IDs' });
+    return;
+  }
+
+  try {
+    const tasks = await service.getTasksByListIds(listIds);
+    res.json(tasks);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to fetch tasks' });
+  }
+};
+
 export const getTask = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const task = await service.getTaskById(id);

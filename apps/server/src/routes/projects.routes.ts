@@ -20,6 +20,7 @@ import { Router } from 'express';
 import listsRouter from './lists.routes';
 
 import * as controller from '../controllers/projects.controller';
+import { getAllTasks } from '../controllers/tasks.controller';
 
 const router = Router();
 
@@ -28,6 +29,8 @@ router.get('/:id', controller.getProject);
 router.post('/', controller.createProject);
 router.put('/:id', controller.updateProject);
 router.delete('/:id', controller.deleteProject);
+
+router.get('/:id/tasks', getAllTasks);
 
 router.use('/:projectId/lists', listsRouter);
 

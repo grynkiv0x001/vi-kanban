@@ -22,7 +22,11 @@ export const ProjectList = () => {
   return (
     <section css={styles.projects}>
       {projects?.map((project) => (
-        <Link key={project.id} to={`/projects/${project.id}`}>
+        <Link
+          key={project.id}
+          to={`/projects/${project.id}`}
+          css={styles.project}
+        >
           {project.name}
         </Link>
       ))}
