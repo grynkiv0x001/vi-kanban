@@ -3,16 +3,43 @@
  * /projects:
  *   get:
  *     summary: Get all projects
+ *     tags: ["Projects"]
  *     responses:
  *       200:
  *         description: A list of projects.
+ *   post:
+ *     summary: Get project by ID
+ *     tags: ["Projects"]
+ *     responses:
+ *      200:
+ *        description: Project
  *
  * /projects/{projectId}:
  *   get:
  *     summary: Get project by ID
+ *     tags: ["Projects"]
  *     responses:
  *      200:
- *        description: Project
+ *        description: Project.
+ *   put:
+ *     summary: Update project
+ *     tags: ["Projects"]
+ *     responses:
+ *      200:
+ *        description: Update project.
+ *   delete:
+ *     summary: Delete project
+ *     tags: ["Projects"]
+ *     responses:
+ *      200:
+ *        description: Delete project.
+ * /projects/{projectId}/tasks?ids:
+ *   get:
+ *     summary: Batch tasks in project by listIds
+ *     tags: ["Projects"]
+ *     responses:
+ *      200:
+ *        description: Batched tasks in project by array of lists ids.
  */
 
 import { Router } from 'express';

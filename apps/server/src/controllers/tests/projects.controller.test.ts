@@ -1,11 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import { Request, Response } from 'express';
+
+import { assertStatusJson } from '../../tests/utils';
 
 import * as controller from '../projects.controller';
 import * as service from '../../services/projects.service';
 
 describe('createProject controller', () => {
-  it('should return 201 and created project', async () => {
+  test('should return 201 and created project', async () => {
     const mockProject = { id: 1, name: 'My Project' };
     vi.spyOn(service, 'createProject').mockResolvedValue(mockProject);
 
@@ -23,11 +25,11 @@ describe('createProject controller', () => {
     await controller.createProject(req as Request, res as Response);
 
     expect(service.createProject).toHaveBeenCalledWith('My Project');
-    expect(status).toHaveBeenCalledWith(201);
-    expect(json).toHaveBeenCalledWith(mockProject);
+
+    assertStatusJson(status, json, 201, mockProject);
   });
 
-  it('should handle errors and return 500', async () => {
+  test('should handle errors and return 500', async () => {
     vi.spyOn(service, 'createProject').mockRejectedValue(new Error('Fail'));
 
     const req = {
@@ -43,7 +45,107 @@ describe('createProject controller', () => {
 
     await controller.createProject(req as Request, res as Response);
 
-    expect(status).toHaveBeenCalledWith(500);
-    expect(json).toHaveBeenCalledWith({ message: 'Internal Server Error' });
+    assertStatusJson(status, json, 500, { message: 'Internal Server Error' });
+  });
+});
+
+describe('getProjects controller', () => {
+  test('should return 200', async () => {
+    const mockProjects = [{ id: 1, name: 'My Project' }, { id: 2, name: 'My Project 2' }];
+
+    vi.spyOn(service, 'getAllProjects').mockResolvedValue(mockProjects);
+
+    const json = vi.fn();
+    const status = vi.fn().mockReturnValue({ json });
+
+    const res = {
+      status,
+    } as Partial<Response>;
+
+    await controller.getProjects({} as Request, res as Response);
+
+    assertStatusJson(status, json, 200, mockProjects);
+  });
+});
+
+describe('updateProject controller', () => {
+  test('should return 200 and updated project', async () => {
+    const mockUpdatedProject = { id: 1, name: 'Updated Project' };
+
+    vi.spyOn(service, 'updateProject').mockResolvedValue(mockUpdatedProject);
+
+    const req = {
+      params: { id: '1' },
+      body: { name: 'Updated Project' },
+    } as Partial<Request>;
+
+    const json = vi.fn();
+    const status = vi.fn().mockReturnValue({ json });
+
+    const res = { status } as Partial<Response>;
+
+    await controller.updateProject(req as Request, res as Response);
+
+    expect(service.updateProject).toHaveBeenCalledWith(1, 'Updated Project');
+
+    assertStatusJson(status, json, 200, mockUpdatedProject);
+  });
+
+  test('should handle errors and return 500', async () => {
+    vi.spyOn(service, 'updateProject').mockRejectedValue(new Error('Fail'));
+
+    const req = {
+      params: { id: '1' },
+      body: { name: 'Updated Project' },
+    } as Partial<Request>;
+
+    const json = vi.fn();
+    const status = vi.fn().mockReturnValue({ json });
+
+    const res = { status } as Partial<Response>;
+
+    await controller.updateProject(req as Request, res as Response);
+
+    assertStatusJson(status, json, 500, { error: 'Failed to update project' });
+  });
+});
+
+describe('deleteProject controller', () => {
+  test('should successfully delete', async () => {
+    vi.spyOn(service, 'deleteProject').mockResolvedValue({ id: 1, name: 'My Project' });
+
+    const req = {
+      params: { id: '1' },
+    } as Partial<Request>;
+
+    const send = vi.fn();
+    const json = vi.fn();
+    const status = vi.fn().mockReturnValue({ send, json });
+
+    const res = { status } as Partial<Response>;
+
+    await controller.deleteProject(req as Request, res as Response);
+
+    expect(service.deleteProject).toHaveBeenCalledWith(1);
+    expect(status).toHaveBeenCalledWith(204);
+    expect(send).toHaveBeenCalled();
+    expect(json).not.toHaveBeenCalled();
+  });
+
+  test('should handle errors and return 500', async () => {
+    vi.spyOn(service, 'deleteProject').mockRejectedValue(new Error('Fail'));
+
+    const req = {
+      params: { id: '1' },
+    } as Partial<Request>;
+
+    const json = vi.fn();
+    const status = vi.fn().mockReturnValue({ json });
+
+    const res = { status } as Partial<Response>;
+
+    await controller.deleteProject(req as Request, res as Response);
+
+    assertStatusJson(status, json, 500, { error: 'Failed to delete project' });
   });
 });

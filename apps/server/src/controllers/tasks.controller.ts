@@ -11,8 +11,12 @@ export const getTasks = async (req: Request, res: Response) => {
     return;
   }
 
-  const tasks = await service.getTasks(listId);
-  res.json(tasks);
+  try {
+    const tasks = await service.getTasks(listId);
+    res.status(200).json(tasks);
+  } catch {
+    res.status(500).json({ error: 'Failed to get tasks' });
+  }
 };
 
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -66,9 +70,12 @@ export const createTask = async (req: Request, res: Response) => {
     return;
   }
 
-  const task = await service.createTask(result.data);
-
-  res.status(201).json(task);
+  try {
+    const task = await service.createTask(result.data);
+    res.status(201).json(task);
+  } catch {
+    res.status(500).json({ error: 'Failed to create a task' });
+  }
 };
 
 export const updateTask = async (req: Request, res: Response) => {
@@ -81,9 +88,9 @@ export const updateTask = async (req: Request, res: Response) => {
 
   try {
     const updated = await service.updateTask(result.data);
-    res.json(updated);
+    res.status(200).json(updated);
   } catch {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to update a task' });
   }
 };
 
@@ -94,6 +101,6 @@ export const deleteTask = async (req: Request, res: Response) => {
     await service.deleteTask(id);
     res.status(204).send();
   } catch {
-    res.status(404).json({ message: 'Task not found' });
+    res.status(500).json({ error: 'Failed to delete a task' });
   }
 };

@@ -5,7 +5,7 @@ import * as service from '../services/projects.service';
 
 export const getProjects = async (_: Request, res: Response) => {
   const projects = await service.getAllProjects();
-  res.json(projects);
+  res.status(200).json(projects);
 };
 
 export const getProject = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ export const getProject = async (req: Request, res: Response) => {
     return;
   }
 
-  res.json(project);
+  res.status(200).json(project);
 };
 
 export const createProject = async (req: Request, res: Response) => {
@@ -47,9 +47,9 @@ export const updateProject = async (req: Request, res: Response) => {
 
   try {
     const updated = await service.updateProject(id, result.data.name!);
-    res.json(updated);
+    res.status(200).json(updated);
   } catch {
-    res.status(404).json({ error: 'Project not found' });
+    res.status(500).json({ error: 'Failed to update project' });
   }
 };
 
@@ -60,6 +60,6 @@ export const deleteProject = async (req: Request, res: Response) => {
     await service.deleteProject(id);
     res.status(204).send();
   } catch {
-    res.status(404).json({ error: 'Project not found' });
+    res.status(500).json({ error: 'Failed to delete project' });
   }
 };

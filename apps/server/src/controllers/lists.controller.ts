@@ -12,7 +12,7 @@ export const getLists = async (req: Request, res: Response) => {
   }
 
   const lists = await service.getProjectLists(projectId);
-  res.json(lists);
+  res.status(200).json(lists);
 };
 
 export const getList = async (req: Request, res: Response) => {
@@ -24,7 +24,7 @@ export const getList = async (req: Request, res: Response) => {
     return;
   }
 
-  res.json(list);
+  res.status(200).json(list);
 };
 
 export const createList = async (req: Request, res: Response) => {
@@ -45,9 +45,12 @@ export const createList = async (req: Request, res: Response) => {
     return;
   }
 
-  const list = await service.createList(result.data);
-
-  res.status(201).json(list);
+  try {
+    const list = await service.createList(result.data);
+    res.status(201).json(list);
+  } catch {
+    res.status(500).json({ error: 'Failed to create a list' });
+  }
 };
 
 export const updateList = async (req: Request, res: Response) => {
@@ -60,9 +63,9 @@ export const updateList = async (req: Request, res: Response) => {
 
   try {
     const updated = await service.updateList(result.data);
-    res.json(updated);
+    res.status(200).json(updated);
   } catch {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to update a list' });
   }
 };
 
@@ -73,6 +76,6 @@ export const deleteList = async (req: Request, res: Response) => {
     await service.deleteList(id);
     res.status(204).send();
   } catch {
-    res.status(404).json({ message: 'List not found' });
+    res.status(500).json({ error: 'Failed to delete a list' });
   }
 };

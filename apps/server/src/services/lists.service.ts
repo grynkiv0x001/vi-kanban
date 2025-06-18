@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { prisma } from '../prisma/client';
 import { createListSchema, updateListSchema } from '../schemas/list.schema';
 
-type CreateListInput = z.infer<typeof createListSchema>;
-type UpdateListInput = z.infer<typeof updateListSchema>;
+export type CreateListInput = z.infer<typeof createListSchema>;
+export type UpdateListInput = z.infer<typeof updateListSchema>;
 
 export const getProjectLists = (projectId: number) => {
   return prisma.list.findMany({
@@ -29,5 +29,8 @@ export const createList = (data: CreateListInput) =>
 export const updateList = (data: UpdateListInput) =>
   prisma.list.update({ where: { id: data.id }, data });
 
-export const deleteList = (id: number) =>
-  prisma.list.delete({ where: { id } });
+export const deleteList = async (id: number) => {
+  await prisma.task.deleteMany({ where: { listId: id } });
+
+  return prisma.list.delete({ where: { id } });
+};
