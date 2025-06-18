@@ -12,6 +12,12 @@ vi.mock('../../prisma/client', () => {
         findMany: vi.fn(),
         findUnique: vi.fn(),
       },
+      list: {
+        deleteMany: vi.fn(),
+      },
+      task: {
+        deleteMany: vi.fn(),
+      },
     },
   };
 });
