@@ -1,0 +1,69 @@
+import { useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import type { RootState } from '@/store';
+import { closeModal } from '@/store/features/modal';
+
+import { CreateModal } from '@/components/modal/types';
+
+export const ModalWrapper = () => {
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+
+  const dispatch = useDispatch();
+  const { isOpen, type } = useSelector((state: RootState) => state.modal);
+
+  useEffect(() => {
+    if (dialogRef.current) {
+      if (isOpen) {
+        dialogRef.current.showModal();
+        return;
+      }
+
+      dialogRef.current.close();
+    }
+  }, [isOpen]);
+
+  const handleClose = useCallback(() => {
+    dispatch(closeModal());
+  }, [dispatch]);
+
+  const renderModal = () => {
+    switch (type) {
+    case 'create':
+      return (
+        <CreateModal />
+      );
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const dialog = dialogRef.current;
+      if (!dialog || !dialog.open) return;
+
+      const rect = dialog.getBoundingClientRect();
+      const clickInside =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom;
+
+      if (!clickInside) {
+        handleClose();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      window.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, handleClose]);
+
+  return (
+    <dialog ref={dialogRef} onClose={handleClose}>
+      {renderModal()}
+    </dialog>
+  );
+};

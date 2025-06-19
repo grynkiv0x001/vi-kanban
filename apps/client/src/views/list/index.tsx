@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import type { List as ListPropType } from 'shared/src/types';
 
 import { TrashIcon } from '@/assets/icons';
 
 import type { RootState } from '@/store';
-import { selectTasksByListId, useCreateTaskMutation } from '@/store/features/tasks';
+import { openModal } from '@/store/features/modal';
+import { selectTasksByListId } from '@/store/features/tasks';
 import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/lists';
 
 import { Task } from '@/views/task';
@@ -16,11 +17,12 @@ import * as styles from './list.styles';
 export const List = (list: ListPropType) => {
   const { id, projectId, name } = list;
 
+  const dispatch = useDispatch();
   const [removeList, { isLoading }] = useDeleteListMutation();
-  const [createTask] = useCreateTaskMutation();
   const [updateList, { isLoading: updating }] = useUpdateListMutation();
 
   const tasks = useSelector((state: RootState) => selectTasksByListId(state, id));
+  console.log('Tasks: ', tasks);
 
   const [listName, setListName] = useState<string>(name);
 
@@ -45,7 +47,13 @@ export const List = (list: ListPropType) => {
   };
 
   const handleTaskCreation = async () => {
-    createTask({ projectId, listId: id, name: 'Test task' });
+    dispatch(openModal({
+      type: 'create',
+      instance: 'task',
+      ids: {
+        listId: id,
+      },
+    }));
   };
 
   return (

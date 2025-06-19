@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/store/services/base.api';
 
 import {
+  modalReducer,
   projectsReducer,
   tasksReducer,
   viReducer,
@@ -11,9 +12,10 @@ import {
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    vi: viReducer,
+    modal: modalReducer,
     project: projectsReducer,
     tasks: tasksReducer,
+    vi: viReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(baseApi.middleware);

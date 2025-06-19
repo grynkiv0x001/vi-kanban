@@ -1,16 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { useDispatch } from 'react-redux';
 
 import { MinusSmallIcon } from '@/assets/icons';
 
-import { useCreateProjectMutation, useDeleteProjectMutation, useGetProjectsQuery } from '@/store/features/projects';
+import { useDeleteProjectMutation, useGetProjectsQuery } from '@/store/features/projects';
+import { openModal } from '@/store/features/modal';
 
 import * as styles from './project-list.styles';
 
 export const ProjectList = () => {
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
-  const [createProject] = useCreateProjectMutation();
   const [deleteProject] = useDeleteProjectMutation();
+
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return (
@@ -25,9 +28,7 @@ export const ProjectList = () => {
   }
 
   const handleProjectCreation = async () => {
-    await createProject({
-      name: 'Test Project',
-    });
+    dispatch(openModal({ type: 'create', instance: 'project' }));
   };
 
   const handleProjectRemoval = async (e: React.MouseEvent, id: number) => {
