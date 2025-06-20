@@ -22,7 +22,7 @@ vi.mock('../../prisma/client', () => {
   };
 });
 
-import { prisma } from '../../prisma/client';
+import { prisma } from '@/prisma/client';
 
 describe('projects service', () => {
   test('should get all projects', async () => {

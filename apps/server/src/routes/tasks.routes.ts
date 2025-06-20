@@ -37,7 +37,7 @@
 
 import { Router } from 'express';
 
-import * as controller from '../controllers/tasks.controller';
+import * as controller from '@/controllers/tasks.controller';
 
 const router = Router({ mergeParams: true });
 

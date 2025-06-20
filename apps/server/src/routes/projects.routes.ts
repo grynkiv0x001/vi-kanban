@@ -44,10 +44,10 @@
 
 import { Router } from 'express';
 
-import listsRouter from './lists.routes';
+import * as controller from '@/controllers/projects.controller';
+import { getAllTasks } from '@/controllers/tasks.controller';
 
-import * as controller from '../controllers/projects.controller';
-import { getAllTasks } from '../controllers/tasks.controller';
+import listsRouter from './lists.routes';
 
 const router = Router();
 

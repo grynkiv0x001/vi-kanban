@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { prisma } from '../prisma/client';
-import { createTaskSchema, updateTaskSchema } from '../schemas/task.schema';
+import { prisma } from '@/prisma/client';
+import { createTaskSchema, updateTaskSchema } from '@/schemas/task.schema';
 
 type CreateTaskInput = z.infer<typeof createTaskSchema>;
 type UpdateTaskInput = z.infer<typeof updateTaskSchema>;

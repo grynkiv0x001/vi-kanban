@@ -5,7 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 
 import { swaggerSpec } from './swagger';
 
-import projects from './routes/projects.routes';
+import auth from '@/routes/auth.routes';
+import projects from '@/routes/projects.routes';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get('/', (_, res) => {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/projects', projects);
+app.use('/auth', auth);
 
 app.listen(3001, () => {
   console.log('Server is running on port 3001');
