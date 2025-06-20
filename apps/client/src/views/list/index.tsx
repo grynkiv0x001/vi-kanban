@@ -22,7 +22,6 @@ export const List = (list: ListPropType) => {
   const [updateList, { isLoading: updating }] = useUpdateListMutation();
 
   const tasks = useSelector((state: RootState) => selectTasksByListId(state, id));
-  console.log('Tasks: ', tasks);
 
   const [listName, setListName] = useState<string>(name);
 

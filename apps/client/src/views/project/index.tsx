@@ -26,7 +26,7 @@ export const ProjectView = () => {
   });
 
   useEffect(() => {
-    if (tasks && tasks.length > 0 && !tasksLoading) {
+    if (tasks && !tasksLoading) {
       dispatch(setProjectTasks(tasks));
     }
   }, [dispatch, tasks, tasksLoading]);
