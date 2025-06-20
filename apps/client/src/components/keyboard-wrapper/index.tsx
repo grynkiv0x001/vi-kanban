@@ -1,10 +1,11 @@
 import { type ReactNode, useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '@/hooks';
 
 import { setViMode } from '@/store/features/vi';
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleKeyboard = useCallback((e: KeyboardEvent) => {
     const actions: Record<string, () => void> = {

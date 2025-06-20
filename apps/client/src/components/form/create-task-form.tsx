@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { closeModal } from '@/store/features/modal';
 import { useCreateTaskMutation } from '@/store/features/tasks';
 
 import { form } from './create-form.styles';
 
 export const CreateTaskForm = () => {
-  const dispatch = useDispatch();
-  const { formId, ids } = useSelector((state: RootState) => state.modal);
-  const { currentProject } = useSelector((state: RootState) => state.project);
+  const dispatch = useAppDispatch();
+  const { formId, ids } = useAppSelector(state => state.modal);
+  const { currentProject } = useAppSelector(state => state.project);
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const [name, setName] = useState<string>('');

@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux';
-
-import type { RootState } from '@/store';
+import { useAppSelector } from '@/hooks';
 
 import { CreateListForm, CreateProjectForm, CreateTaskForm } from '@/components/form';
 
 import * as styles from './create-modal.styles.ts';
 
 export const CreateModal = () => {
-  const { instance, formId } = useSelector((state: RootState) => state.modal);
+  const { instance, formId } = useAppSelector(state => state.modal);
 
   const renderCreateForm = () => {
     switch (instance) {

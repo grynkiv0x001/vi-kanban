@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import type { List as ListPropType } from 'shared/src/types';
 
 import { TrashIcon } from '@/assets/icons';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { openModal } from '@/store/features/modal';
 import { selectTasksByListId } from '@/store/features/tasks';
 import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/lists';
@@ -17,11 +17,11 @@ import * as styles from './list.styles';
 export const List = (list: ListPropType) => {
   const { id, projectId, name } = list;
 
-  const dispatch = useDispatch();
   const [removeList, { isLoading }] = useDeleteListMutation();
   const [updateList, { isLoading: updating }] = useUpdateListMutation();
 
-  const tasks = useSelector((state: RootState) => selectTasksByListId(state, id));
+  const dispatch = useAppDispatch();
+  const tasks = useAppSelector(state => selectTasksByListId(state, id));
 
   const [listName, setListName] = useState<string>(name);
 

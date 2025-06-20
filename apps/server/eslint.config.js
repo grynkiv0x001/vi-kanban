@@ -25,6 +25,7 @@ export default defineConfig([
       'comma-dangle': ['error', 'always-multiline'],
       'object-curly-spacing': ['error', 'always'],
       indent: ['error', 2],
+      'eol-last': ['error', 'always'],
     },
   },
 ]);

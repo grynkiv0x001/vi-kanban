@@ -1,17 +1,17 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { BluePrintIcon } from '@/assets/icons';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
 
 import * as styles from './header.styles';
 
 export const Header = () => {
-  const dispatch = useDispatch();
-  const { currentProject } = useSelector((state: RootState) => state.project);
+  const dispatch = useAppDispatch();
+  const { currentProject } = useAppSelector(state => state.project);
   const [projectName, setProjectName] = useState(currentProject?.name ?? '');
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 

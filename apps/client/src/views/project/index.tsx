@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { useGetProjectListsQuery } from '@/store/features/lists';
 import { setProjectTasks, useGetListTasksQuery } from '@/store/features/tasks';
 import { openModal } from '@/store/features/modal';
@@ -11,8 +11,8 @@ import { List } from '@/views/list';
 import * as styles from './project.styles';
 
 export const ProjectView = () => {
-  const dispatch = useDispatch();
-  const { currentProject } = useSelector((state: RootState) => state.project);
+  const dispatch = useAppDispatch();
+  const { currentProject } = useAppSelector(state => state.project);
 
   const { data: lists, isLoading: listsLoading } = useGetProjectListsQuery(currentProject?.id ?? 0, {
     skip: !currentProject,

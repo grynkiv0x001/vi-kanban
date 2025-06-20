@@ -1,11 +1,9 @@
-import { useSelector } from 'react-redux';
-
-import type { RootState } from '@/store';
+import { useAppSelector } from '@/hooks';
 
 import * as styles from './footer.styles';
 
 export const Footer = () => {
-  const vi = useSelector((state: RootState) => state.vi);
+  const vi = useAppSelector(state  => state.vi);
 
   return (
     <footer css={styles.footer}>
