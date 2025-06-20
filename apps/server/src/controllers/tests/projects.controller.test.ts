@@ -1,18 +1,19 @@
 import { describe, test, expect, vi } from 'vitest';
 import { Request, Response } from 'express';
 
-import { assertStatusJson } from '../../tests/utils';
+import { assertStatusJson } from '@/tests/utils';
 
+import * as service from '@/services/projects.service';
 import * as controller from '../projects.controller';
-import * as service from '../../services/projects.service';
 
 describe('createProject controller', () => {
   test('should return 201 and created project', async () => {
-    const mockProject = { id: 1, name: 'My Project' };
+    const mockProject = { id: 1, name: 'My Project', userId: 'test' };
     vi.spyOn(service, 'createProject').mockResolvedValue(mockProject);
 
     const req = {
       body: { name: 'My Project' },
+      userId: 'test',
     } as Partial<Request>;
 
     const json = vi.fn();
@@ -24,7 +25,7 @@ describe('createProject controller', () => {
 
     await controller.createProject(req as Request, res as Response);
 
-    expect(service.createProject).toHaveBeenCalledWith('My Project');
+    expect(service.createProject).toHaveBeenCalledWith({ name: 'My Project', userId: 'test' });
 
     assertStatusJson(status, json, 201, mockProject);
   });
@@ -34,6 +35,7 @@ describe('createProject controller', () => {
 
     const req = {
       body: { name: 'My Project' },
+      userId: 'test',
     } as Partial<Request>;
 
     const json = vi.fn();
@@ -51,7 +53,10 @@ describe('createProject controller', () => {
 
 describe('getProjects controller', () => {
   test('should return 200', async () => {
-    const mockProjects = [{ id: 1, name: 'My Project' }, { id: 2, name: 'My Project 2' }];
+    const mockProjects = [
+      { id: 1, name: 'My Project', userId: 'test' },
+      { id: 2, name: 'My Project 2', userId: 'test' },
+    ];
 
     vi.spyOn(service, 'getAllProjects').mockResolvedValue(mockProjects);
 
@@ -70,7 +75,7 @@ describe('getProjects controller', () => {
 
 describe('updateProject controller', () => {
   test('should return 200 and updated project', async () => {
-    const mockUpdatedProject = { id: 1, name: 'Updated Project' };
+    const mockUpdatedProject = { id: 1, name: 'Updated Project', userId: 'test' };
 
     vi.spyOn(service, 'updateProject').mockResolvedValue(mockUpdatedProject);
 
@@ -112,7 +117,8 @@ describe('updateProject controller', () => {
 
 describe('deleteProject controller', () => {
   test('should successfully delete', async () => {
-    vi.spyOn(service, 'deleteProject').mockResolvedValue({ id: 1, name: 'My Project' });
+    vi.spyOn(service, 'deleteProject')
+      .mockResolvedValue({ id: 1, name: 'My Project', userId: 'test' });
 
     const req = {
       params: { id: '1' },

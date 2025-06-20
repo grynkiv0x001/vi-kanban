@@ -2,8 +2,8 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface IModalState {
   isOpen: boolean;
-  type: 'create' | null;
-  instance: 'project' | 'list' | 'task' | null;
+  type: 'create' | 'auth' | null;
+  instance: 'project' | 'list' | 'task' | 'login' | 'register' | null;
   formId: string;
   ids?: Record<string, number>;
 }
@@ -33,9 +33,15 @@ export const modalSlice = createSlice({
       state.formId = '';
       state.ids = undefined;
     },
+    setModalType: (state, action: PayloadAction<IModalState['type']>) => {
+      state.type = action.payload;
+    },
+    setModalInstance: (state, action: PayloadAction<IModalState['instance']>) => {
+      state.instance = action.payload;
+    },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openModal, closeModal, setModalInstance } = modalSlice.actions;
 
 export default modalSlice.reducer;

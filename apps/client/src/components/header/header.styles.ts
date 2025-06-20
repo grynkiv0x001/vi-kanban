@@ -47,3 +47,12 @@ export const searchBar = css`
   background-color: #f8f9fa;
   border: none;
 `;
+
+export const accountBtn = css`
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: #f8f9fa;
+  cursor: pointer;
+`;

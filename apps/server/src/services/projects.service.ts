@@ -1,12 +1,18 @@
-import { prisma } from '../prisma/client';
+import { z } from 'zod';
 
-export const getAllProjects = () => prisma.project.findMany();
+import { prisma } from '@/prisma/client';
+
+import { createProjectSchema } from '@/schemas/project.schema';
+
+type CreateProjectInput = z.infer<typeof createProjectSchema> & { userId: string };
+
+export const getAllProjects = (userId: string) => prisma.project.findMany({ where: { userId } });
 
 export const getProjectById = (id: number) =>
   prisma.project.findUnique({ where: { id } });
 
-export const createProject = (name: string) =>
-  prisma.project.create({ data: { name } });
+export const createProject = (data: CreateProjectInput) =>
+  prisma.project.create({ data });
 
 export const updateProject = (id: number, name: string) =>
   prisma.project.update({ where: { id }, data: { name } });

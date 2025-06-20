@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
+import { openModal } from '@/store/features/modal';
 
 import * as styles from './header.styles';
 
@@ -32,6 +33,13 @@ export const Header = () => {
     }
   };
 
+  const handleLogin = async () => {
+    dispatch(openModal({
+      type: 'auth',
+      instance: 'login',
+    }));
+  };
+
   return (
     <header css={styles.header}>
       <nav css={styles.nav}>
@@ -54,7 +62,9 @@ export const Header = () => {
       <nav css={styles.actions}>
         <a href="#">Create</a>
         <a href="#">Settings</a>
-        <a href="#">Account</a>
+        <button onClick={handleLogin} css={styles.accountBtn}>
+          Account
+        </button>
       </nav>
     </header>
   );

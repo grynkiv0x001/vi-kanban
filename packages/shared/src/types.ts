@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const ProjectSchema = z.object({
   id: z.number(),
   name: z.string().min(1, 'Name is required'),
+  userId: z.string().min(1, 'User ID is required'),
 });
 
 export type Project = z.infer<typeof ProjectSchema>;
