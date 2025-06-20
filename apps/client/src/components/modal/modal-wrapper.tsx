@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { closeModal } from '@/store/features/modal';
 
 import { CreateModal } from '@/components/modal/types';
@@ -9,8 +9,8 @@ import { CreateModal } from '@/components/modal/types';
 export const ModalWrapper = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-  const dispatch = useDispatch();
-  const { isOpen, type } = useSelector((state: RootState) => state.modal);
+  const dispatch = useAppDispatch();
+  const { isOpen, type } = useAppSelector(state => state.modal);
 
   useEffect(() => {
     if (dialogRef.current) {

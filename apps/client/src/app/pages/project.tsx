@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
+
+import { useAppDispatch } from '@/hooks';
 
 import { setCurrentProject, useGetProjectQuery } from '@/store/features/projects';
 
@@ -9,7 +10,7 @@ import { ProjectView } from '@/views/project';
 export const Project = () => {
   const { id: projectId = '' } = useParams<{ id: string }>();
   const { data: project, isLoading: isProjectLoading, isError: isProjectError } = useGetProjectQuery(projectId);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (project && !isProjectLoading && !isProjectError) {

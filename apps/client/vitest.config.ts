@@ -3,17 +3,13 @@ import path from 'node:path';
 
 export default defineConfig({
   test: {
-    environment: 'node',
+    environment: 'jsdom',
     globals: true,
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov'],
-    },
-
+    setupFiles: './src/tests/vitest.setup.tsx',
   },
   resolve: {
     alias: {
-      '@shared': path.resolve(__dirname, '../../packages/shared/src'),
+      '@': path.resolve(__dirname, './src/'),
     },
   },
 });

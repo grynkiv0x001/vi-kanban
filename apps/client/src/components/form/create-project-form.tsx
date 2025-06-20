@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+
 import { closeModal } from '@/store/features/modal';
 import { useCreateProjectMutation } from '@/store/features/projects';
 
 export const CreateProjectForm = () => {
-  const dispatch = useDispatch();
-  const { formId } = useSelector((state: RootState) => state.modal);
+  const dispatch = useAppDispatch();
+  const { formId } = useAppSelector(state => state.modal);
   const [createProject, { isLoading }] = useCreateProjectMutation();
 
   const [name, setName] = useState<string>('');

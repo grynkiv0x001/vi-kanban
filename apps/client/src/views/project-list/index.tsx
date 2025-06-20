@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { useDispatch } from 'react-redux';
 
 import { MinusSmallIcon } from '@/assets/icons';
+
+import { useAppDispatch } from '@/hooks';
 
 import { useDeleteProjectMutation, useGetProjectsQuery } from '@/store/features/projects';
 import { openModal } from '@/store/features/modal';
@@ -13,7 +14,7 @@ export const ProjectList = () => {
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
   const [deleteProject] = useDeleteProjectMutation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (isLoading) {
     return (
