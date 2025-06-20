@@ -25,8 +25,8 @@ app.get('/', (_, res) => {
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use('/projects', projects);
 app.use('/auth', auth);
+app.use('/projects', projects);
 
 app.listen(3001, () => {
   console.log('Server is running on port 3001');

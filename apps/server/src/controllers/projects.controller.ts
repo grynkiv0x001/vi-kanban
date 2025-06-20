@@ -20,8 +20,11 @@ export const getProject = async (req: Request, res: Response) => {
   res.status(200).json(project);
 };
 
-export const createProject = async (req: Request, res: Response) => {
-  const result = createProjectSchema.safeParse(req.body);
+export const createProject = async (req: Request & { userId?: string }, res: Response) => {
+  const result = createProjectSchema.safeParse({
+    ...req.body,
+    userId: req.userId,
+  });
 
   if (!result.success) {
     res.status(400).json(result.error);
@@ -29,7 +32,7 @@ export const createProject = async (req: Request, res: Response) => {
   }
 
   try {
-    const project = await service.createProject(result.data.name);
+    const project = await service.createProject({ ...result.data });
     res.status(201).json(project);
   } catch {
     res.status(500).json({ message: 'Internal Server Error' });

@@ -9,8 +9,12 @@ export const authenticateToken = (req, res, next) => {
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, JWT_SECRET, (err, payload) => {
-    if (err) return res.sendStatus(403);
+    if (err) {
+      return res.sendStatus(403);
+    }
+
     req.userId = payload.userId;
+
     next();
   });
 };

@@ -47,9 +47,13 @@ import { Router } from 'express';
 import * as controller from '@/controllers/projects.controller';
 import { getAllTasks } from '@/controllers/tasks.controller';
 
+import { authenticateToken } from '@/controllers/middlewares/auth.middleware';
+
 import listsRouter from './lists.routes';
 
 const router = Router();
+
+router.use(authenticateToken);
 
 router.get('/', controller.getProjects);
 router.get('/:id', controller.getProject);

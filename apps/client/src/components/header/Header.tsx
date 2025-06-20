@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
+import { useLoginMutation } from '@/store/services/base.api';
 
 import * as styles from './header.styles';
 
@@ -14,6 +15,7 @@ export const Header = () => {
   const { currentProject } = useAppSelector(state => state.project);
   const [projectName, setProjectName] = useState(currentProject?.name ?? '');
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
+  const [login] = useLoginMutation();
 
   useEffect(() => {
     setProjectName(currentProject?.name ?? '');
@@ -30,6 +32,14 @@ export const Header = () => {
     } catch (error) {
       console.error('Failed to update project:', error);
     }
+  };
+
+  const handleLogin = async () => {
+    // FIXME: dummy data
+    login({
+      email: 'test@test.com',
+      password: 'test123',
+    });
   };
 
   return (
@@ -54,7 +64,7 @@ export const Header = () => {
       <nav css={styles.actions}>
         <a href="#">Create</a>
         <a href="#">Settings</a>
-        <a href="#">Account</a>
+        <a href="#" onClick={handleLogin}>Account</a>
       </nav>
     </header>
   );
