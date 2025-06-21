@@ -1,10 +1,10 @@
 import { describe, expect, test, vi } from 'vitest';
 import { Request, Response } from 'express';
 
-import { assertStatusJson } from '../../tests/utils';
+import { assertStatusJson } from '@/tests/utils';
 
+import * as service from '@/services/tasks.service';
 import * as controller from '../tasks.controller';
-import * as service from '../../services/tasks.service';
 
 describe('Tasks Controller – Get', () => {
   test('should successfully return tasks', async () => {

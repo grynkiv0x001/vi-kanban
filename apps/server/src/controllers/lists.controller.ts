@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { createListSchema, updateListSchema } from '../schemas/list.schema';
-import * as service from '../services/lists.service';
+import { createListSchema, updateListSchema } from '@/schemas/list.schema';
+import * as service from '@/services/lists.service';
 
 export const getLists = async (req: Request, res: Response) => {
   const projectId = Number(req.params.projectId);

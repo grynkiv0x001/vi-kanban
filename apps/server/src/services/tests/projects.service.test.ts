@@ -22,7 +22,7 @@ vi.mock('../../prisma/client', () => {
   };
 });
 
-import { prisma } from '../../prisma/client';
+import { prisma } from '@/prisma/client';
 
 describe('projects service', () => {
   test('should get all projects', async () => {
@@ -52,10 +52,10 @@ describe('projects service', () => {
     const mockProject = { id: 1, name: 'Test Project' };
     (prisma.project.create as Mock).mockResolvedValue(mockProject);
 
-    const result = await projectService.createProject('Test Project');
+    const result = await projectService.createProject({ name: 'Test Project', userId: 'test' });
 
     expect(prisma.project.create).toHaveBeenCalledWith({
-      data: { name: 'Test Project' },
+      data: { name: 'Test Project', userId: 'test' },
     });
 
     expect(result).toEqual(mockProject);

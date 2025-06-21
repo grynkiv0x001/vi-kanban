@@ -22,6 +22,10 @@ export const Project = () => {
     };
   }, [dispatch, project, isProjectLoading, isProjectError]);
 
+  if (isProjectError || !project) {
+    return null;
+  }
+
   return (
     <ProjectView />
   );

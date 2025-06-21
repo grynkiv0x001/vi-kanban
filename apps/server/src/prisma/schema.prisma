@@ -14,29 +14,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  projects  Project[]
+}
+
 model Project {
-  id   Int    @id @default(autoincrement())
-  name String
-  lists List[]
-  tasks Task[]
+  id     Int    @id @default(autoincrement())
+  name   String
+  lists  List[]
+  tasks  Task[]
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model List {
-  id Int @id @default(autoincrement())
-  name String
-  position Int?
-  project Project @relation(fields: [projectId], references: [id])
+  id        Int     @id @default(autoincrement())
+  name      String
+  position  Int?
+  project   Project @relation(fields: [projectId], references: [id])
   projectId Int
-  tasks Task[]
+  tasks     Task[]
 }
 
 model Task {
-  id Int @id @default(autoincrement())
-  name String
+  id          Int     @id @default(autoincrement())
+  name        String
   description String?
-  position Int?
-  project Project @relation(fields: [projectId], references: [id])
-  projectId Int
-  list List @relation(fields: [listId], references: [id])
-  listId Int
+  position    Int?
+  project     Project @relation(fields: [projectId], references: [id])
+  projectId   Int
+  list        List    @relation(fields: [listId], references: [id])
+  listId      Int
 }
