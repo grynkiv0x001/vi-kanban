@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import swaggerUi from 'swagger-ui-express';
 
@@ -24,6 +25,8 @@ app.get('/', (_, res) => {
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(cookieParser());
 
 app.use('/auth', auth);
 app.use('/projects', projects);

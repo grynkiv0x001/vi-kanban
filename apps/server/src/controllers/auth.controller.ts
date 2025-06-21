@@ -4,7 +4,11 @@ import bcrypt from 'bcrypt';
 
 import * as service from '@/services/auth.service';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'access-secret';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh-secret';
+
+const ACCESS_TOKEN_EXPIRE = '1m';
+const REFRESH_TOKEN_EXPIRE = '7d';
 
 export const register = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -17,10 +21,9 @@ export const register = async (req: Request, res: Response) => {
   }
 
   const hashed = await bcrypt.hash(password, 10);
-
   const user = await service.createUser(email, hashed);
 
-  res.status(201).json({ id: user.id, email: user.email });
+  res.status(201).json({ user });
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -28,19 +31,65 @@ export const login = async (req: Request, res: Response) => {
 
   const user = await service.getExistingUser(email);
 
-  if (!user) {
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status(401).json({ error: 'Invalid credentials' });
     return;
   }
 
-  const valid = await bcrypt.compare(password, user.password);
+  const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRE });
+  const refreshToken = jwt.sign({ userId: user.id }, JWT_REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRE });
 
-  if (!valid) {
-    res.status(401).json({ error: 'Invalid credentials' });
+  res
+    .cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: '/auth/refresh',
+    })
+    .cookie('accessToken', accessToken, {
+      httpOnly: false,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 60 * 1000,
+    })
+    .json({
+      expiresIn: 60,
+    });
+};
+
+export const refreshAccessToken = async (req: Request, res: Response) => {
+  const token = req.cookies.refreshToken;
+
+  if (!token) {
+    res.sendStatus(401);
     return;
   }
 
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
+  try {
+    const payload = jwt.verify(token, JWT_REFRESH_SECRET) as { userId: string };
+    
+    const newAccessToken = jwt.sign({ userId: payload.userId }, JWT_SECRET, {
+      expiresIn: ACCESS_TOKEN_EXPIRE,
+    });
 
-  res.status(200).json({ token });
+    res.cookie('accessToken', newAccessToken, {
+      httpOnly: false,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 60 * 1000,
+    });
+
+    res.status(200).json({});
+  } catch {
+    res.sendStatus(403);
+  }
+};
+
+export const logout = async (_: Request, res: Response) => {
+  res
+    .clearCookie('refreshToken', { path: '/auth/refresh' })
+    .clearCookie('accessToken')
+    .status(200)
+    .json({});
 };
