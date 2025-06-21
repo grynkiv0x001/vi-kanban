@@ -20,12 +20,8 @@ const baseQueryReAuth: BaseQueryFn<string | FetchArgs, unknown, unknown> = async
   if (result.error && result.error.originalStatus === 401) {
     const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
 
-    if ((refreshResult.data as any)?.token) {
-      // Retry the original query after refresh
+    if (refreshResult.data && !refreshResult.error) {
       result = await baseQuery(args, api, extraOptions);
-    } else {
-      // Optional: trigger logout or reset state
-      api.dispatch({ type: 'auth/logout' }); // if you have an auth slice
     }
   }
 
