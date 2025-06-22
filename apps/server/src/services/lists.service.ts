@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { prisma } from '../prisma/client';
-import { createListSchema, updateListSchema } from '../schemas/list.schema';
+import { prisma } from '@/prisma/client';
+import { createListSchema, updateListSchema } from '@/schemas/list.schema';
 
 export type CreateListInput = z.infer<typeof createListSchema>;
 export type UpdateListInput = z.infer<typeof updateListSchema>;

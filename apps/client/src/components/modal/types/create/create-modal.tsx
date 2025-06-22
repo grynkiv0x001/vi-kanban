@@ -2,7 +2,7 @@ import { useAppSelector } from '@/hooks';
 
 import { CreateListForm, CreateProjectForm, CreateTaskForm } from '@/components/form';
 
-import * as styles from './create-modal.styles.ts';
+import * as styles from './create-modal.styles';
 
 export const CreateModal = () => {
   const { instance, formId } = useAppSelector(state => state.modal);

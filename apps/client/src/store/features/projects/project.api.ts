@@ -11,7 +11,7 @@ const projectApi = baseApi.injectEndpoints({
       query: (id) => `projects/${id}`,
       providesTags: ['Projects'],
     }),
-    createProject: build.mutation<Project, Omit<Project, 'id'>>({
+    createProject: build.mutation<Project, Omit<Project, 'id' | 'userId'>>({
       query: (body) => ({
         url: 'projects/',
         method: 'POST',

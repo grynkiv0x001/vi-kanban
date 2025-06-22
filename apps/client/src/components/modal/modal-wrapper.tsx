@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { closeModal } from '@/store/features/modal';
 
-import { CreateModal } from '@/components/modal/types';
+import { AuthModal, CreateModal } from '@/components/modal/types';
 
 export const ModalWrapper = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -32,6 +32,10 @@ export const ModalWrapper = () => {
     case 'create':
       return (
         <CreateModal />
+      );
+    case 'auth':
+      return (
+        <AuthModal />
       );
     }
   };
