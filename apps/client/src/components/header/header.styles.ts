@@ -1,17 +1,17 @@
-import { css } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 
-export const header = css`
+export const header = (theme: Theme) => css`
   padding: 8px 18px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
   height: 42px;
 
-  background-color: #0B0500;
-  color: #f8f9fa;
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.text};
   
   a {
-    color: #f8f9fa;
+    color: ${theme.colors.text};
   }
 `;
 
@@ -22,9 +22,9 @@ export const nav = css`
   height: 100%;
 `;
 
-export const logo = css`
+export const logo = (theme: Theme) => css`
   svg {
-    fill: #d3869b;
+    fill: ${theme.colors.primary};
   }
 `;
 
@@ -34,25 +34,25 @@ export const actions = css`
   justify-self: flex-end;
 `;
 
-export const projectName = css`
+export const projectName = (theme: Theme) => css`
   input {
     background-color: transparent;
     border: none;
-    color: #f8f9fa;
+    color: ${theme.colors.text};
     outline: none;
   }
 `;
 
-export const searchBar = css`
-  background-color: #f8f9fa;
+export const searchBar = (theme: Theme) => css`
+  background-color: ${theme.colors.text};
   border: none;
 `;
 
-export const accountBtn = css`
+export const accountBtn = (theme: Theme) => css`
   margin: 0;
   padding: 0;
   background-color: transparent;
   border: none;
-  color: #f8f9fa;
+  color: ${theme.colors.text};
   cursor: pointer;
 `;

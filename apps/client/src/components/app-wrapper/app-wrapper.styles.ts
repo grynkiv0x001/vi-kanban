@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 
 import { MapleMonoHeavy, MapleMonoMedium, MapleMonoRegular } from '@/assets/fonts';
 
-export const global = css`
+export const global = (theme: Theme) => css`
   @font-face {
     font-family: 'MapleMono';
     font-weight: 400;
@@ -34,7 +34,7 @@ export const global = css`
 
   * {
     font-family: 'MapleMono', Helvetica, Arial, sans-serif;
-    caret-color: #d3869b;
+    caret-color: ${theme.colors.primary};
   }
 
   html, body, #root {
@@ -47,11 +47,12 @@ export const global = css`
   }
 `;
 
-export const wrapper = css`
+export const wrapper = (theme: Theme) => css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f8f9fa;
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.text};
   
   & > section {
     overflow: auto;

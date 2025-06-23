@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 
-export const footer = css`
+export const footer = (theme: Theme) => css`
   padding: 8px;
   margin-block-start: auto;
 
-  background-color: #0B0500;
-  color: #f8f9fa;
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.text};
 `;

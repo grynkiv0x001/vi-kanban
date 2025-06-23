@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 
-export const task = css`
+export const task = (theme: Theme) => css`
   margin: 0;
   padding: 8px;
   display: flex;
@@ -19,7 +19,7 @@ export const task = css`
     cursor: pointer;
 
     svg {
-      fill: #d3869b;
+      fill: ${theme.colors.primary};
     }
   }
 
