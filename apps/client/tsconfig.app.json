@@ -26,7 +26,8 @@
     /* Aliases */
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "shared/*": ["../../packages/shared/*"]
     },
 
     /* Styles */
