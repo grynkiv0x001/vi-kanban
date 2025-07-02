@@ -1686,6 +1686,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^24.0.10":
+  version: 24.0.10
+  resolution: "@types/node@npm:24.0.10"
+  dependencies:
+    undici-types: "npm:~7.8.0"
+  checksum: 10c0/11dbd869d3e12ee7b7818113588950e538783e45d227122174c763cb05977defbd1e01b44b5ccd4b8997e42c3df7f7b83c6ee05cfa43d924c8882886bc5f6582
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -6255,7 +6264,6 @@ __metadata:
     typescript: "npm:^5.8.3"
     typescript-eslint: "npm:^8.34.0"
     vitest: "npm:^3.2.3"
-    zod: "npm:^3.25.64"
   languageName: unknown
   linkType: soft
 
@@ -6313,8 +6321,6 @@ __metadata:
 "shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "shared@workspace:packages/shared"
-  dependencies:
-    zod: "npm:^3.25.64"
   languageName: unknown
   linkType: soft
 
@@ -7155,7 +7161,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vi-kanban@workspace:."
   dependencies:
+    "@types/node": "npm:^24.0.10"
     concurrently: "npm:^9.1.2"
+    zod: "npm:^3.25.64"
   languageName: unknown
   linkType: soft
 
