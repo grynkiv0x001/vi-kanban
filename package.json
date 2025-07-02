@@ -11,6 +11,9 @@
     "dev:client": "yarn workspace client dev",
     "dev:server": "yarn workspace server dev"
   },
+  "dependencies": {
+    "zod": "^3.25.64"
+  },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }
