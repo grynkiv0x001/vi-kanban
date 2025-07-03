@@ -1,7 +1,12 @@
 {
   "name": "shared",
   "packageManager": "yarn@4.9.2",
-  "private": "true",
   "main": "src/types.ts",
-  "types": "src/types.ts"
+  "types": "src/types.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }

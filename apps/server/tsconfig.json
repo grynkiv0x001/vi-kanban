@@ -8,12 +8,13 @@
     "esModuleInterop": true,
     "allowImportingTsExtensions": false,
     "strictNullChecks": true,
+    "skipLibCheck": true,
     "noEmit": false,
     "paths": {
-      "@shared/*": ["../../packages/shared/src/*"],
+      "@shared/*": ["../../packages/shared/dist/*"],
       "@/*":  ["./src/*"]
     },
     "types": ["vitest/globals"],
   },
-  "exclude": ["vitest.config.ts"]
+  "exclude": ["node_modules/vite", "vitest.config.ts", "dist"]
 }
