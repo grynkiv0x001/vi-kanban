@@ -7,7 +7,7 @@ import * as service from '@/services/auth.service';
 const JWT_SECRET = process.env.JWT_SECRET || 'access-secret';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh-secret';
 
-const ACCESS_TOKEN_EXPIRE = '1m';
+const ACCESS_TOKEN_EXPIRE = '15m';
 const REFRESH_TOKEN_EXPIRE = '7d';
 
 const issueTokens = (userId: string, res: Response) => {
@@ -17,19 +17,20 @@ const issueTokens = (userId: string, res: Response) => {
   res
     .cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'strict',
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: '/auth/refresh',
     })
     .cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'strict',
-      maxAge: 60 * 1000,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 15 * 60 * 1000,
     });
 
-  return { expiresIn: 60 };
+  return { expiresIn: 15 * 16 * 1000 };
 };
 
 export const register = async (req: Request, res: Response) => {
