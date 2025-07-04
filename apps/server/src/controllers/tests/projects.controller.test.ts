@@ -60,6 +60,10 @@ describe('getProjects controller', () => {
 
     vi.spyOn(service, 'getAllProjects').mockResolvedValue(mockProjects);
 
+    const req = {
+      userId: 'test',
+    } as Partial<Request>;
+
     const json = vi.fn();
     const status = vi.fn().mockReturnValue({ json });
 
@@ -67,7 +71,7 @@ describe('getProjects controller', () => {
       status,
     } as Partial<Response>;
 
-    await controller.getProjects({} as Request, res as Response);
+    await controller.getProjects(req as Request, res as Response);
 
     assertStatusJson(status, json, 200, mockProjects);
   });

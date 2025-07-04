@@ -29,7 +29,7 @@ describe('projects service', () => {
     const mockProjects = [{ id: 1, name: 'Test Project 1' }, { id: 2, name: 'Test Project 2' }];
     (prisma.project.findMany as Mock).mockResolvedValue(mockProjects);
 
-    const result = await projectService.getAllProjects();
+    const result = await projectService.getAllProjects('test-id');
 
     expect(prisma.project.findMany).toHaveBeenCalled();
     expect(result).toEqual(mockProjects);
