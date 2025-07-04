@@ -1,6 +1,7 @@
 {
   "name": "vi-kanban",
   "packageManager": "yarn@4.9.2",
+  "private": "true",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -8,7 +9,9 @@
   "scripts": {
     "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
     "dev:client": "yarn workspace client dev",
-    "dev:server": "yarn workspace server dev"
+    "dev:server": "yarn workspace server dev",
+    "build:client": "yarn workspace client build",
+    "build:server": "yarn workspace shared build && yarn workspace server build"
   },
   "dependencies": {
     "zod": "^3.25.64"

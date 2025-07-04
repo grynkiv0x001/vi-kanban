@@ -8,8 +8,6 @@ type AuthRequest = Request & { userId?: string };
 export const getProjects = async (req: AuthRequest, res: Response) => {
   const { userId } = req;
 
-  console.log('Id: ', userId);
-
   if (!userId) {
     res.status(400).json({ message: 'Invalid or missing userId' });
     return;

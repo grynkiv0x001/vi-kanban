@@ -1,9 +1,9 @@
 {
   "name": "shared",
   "packageManager": "yarn@4.9.2",
+  "private": "true",
   "main": "src/types.ts",
   "types": "src/types.ts",
-  "private": "true",
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },

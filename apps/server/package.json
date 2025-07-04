@@ -1,13 +1,14 @@
 {
   "name": "server",
   "packageManager": "yarn@4.9.2",
+  "private": "true",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
     "start": "node dist/index.js",
     "migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
     "migrate:deploy": "prisma migrate deploy --schema=src/prisma/schema.prisma",
     "generate": "prisma generate --schema=src/prisma/schema.prisma",
+    "build": "yarn generate && tsc",
     "lint": "eslint .",
     "format": "eslint . --fix",
     "test": "vitest --run"
