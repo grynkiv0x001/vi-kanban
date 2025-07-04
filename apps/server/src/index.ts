@@ -13,11 +13,14 @@ const app = express();
 
 const allowedOrigins = process.env.CORS_ORIGIN?.split(',') ?? [];
 
+console.log('🪵 CORS_ORIGIN: ', process.env.CORS_ORIGIN);
+console.log('🪵 allowedOrigins: ', allowedOrigins);
+
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      
+
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
