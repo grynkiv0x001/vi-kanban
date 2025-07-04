@@ -1,14 +1,13 @@
 {
   "name": "server",
   "packageManager": "yarn@4.9.2",
-  "private": "true",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "migrate": "prisma migrate dev --schema=src/prisma/schema.prisma",
     "migrate:deploy": "prisma migrate deploy --schema=src/prisma/schema.prisma",
     "generate": "prisma generate --schema=src/prisma/schema.prisma",
-    "build": "yarn generate && tsc",
+    "build": "yarn generate && npx babel src --out-dir dist --extensions \".ts,.tsx\" --ignore \"**/*.d.ts\" --copy-files",
     "lint": "eslint .",
     "format": "eslint . --fix",
     "test": "vitest --run"
@@ -25,7 +24,11 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-typescript": "^7.27.1",
     "@eslint/js": "^9.29.0",
+    "@types/babel__core": "^7",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1",
     "@types/cors": "^2",
@@ -34,6 +37,8 @@
     "@types/node": "^24.0.1",
     "@types/swagger-jsdoc": "^6",
     "@vitest/coverage-v8": "^3.2.3",
+    "babel-plugin-add-import-extension": "^1.6.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^9.29.0",
     "globals": "^16.2.0",
     "prisma": "6.9.0",
