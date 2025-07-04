@@ -3,8 +3,20 @@ import { Request, Response } from 'express';
 import { createProjectSchema, updateProjectSchema } from '@/schemas/project.schema';
 import * as service from '@/services/projects.service';
 
-export const getProjects = async (req: Request, res: Response) => {
-  const projects = await service.getAllProjects(req.userId);
+type AuthRequest = Request & { userId?: string };
+
+export const getProjects = async (req: AuthRequest, res: Response) => {
+  const { userId } = req;
+
+  console.log('Id: ', userId);
+
+  if (!userId) {
+    res.status(400).json({ message: 'Invalid or missing userId' });
+    return;
+  }
+
+  const projects = await service.getAllProjects(userId);
+
   res.status(200).json(projects);
 };
 
@@ -20,7 +32,7 @@ export const getProject = async (req: Request, res: Response) => {
   res.status(200).json(project);
 };
 
-export const createProject = async (req: Request & { userId?: string }, res: Response) => {
+export const createProject = async (req: AuthRequest, res: Response) => {
   const result = createProjectSchema.safeParse({
     ...req.body,
     userId: req.userId,

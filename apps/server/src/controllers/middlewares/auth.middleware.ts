@@ -7,12 +7,14 @@ export const authenticateToken = (req: Request & { userId: string }, res: Respon
   const token = req.cookies?.accessToken;
 
   if (!token) {
-    return res.sendStatus(401);
+    res.sendStatus(401);
+    return;
   }
 
   jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err) {
-      return res.sendStatus(403);
+      res.sendStatus(403);
+      return;
     }
 
     req.userId = payload.userId;

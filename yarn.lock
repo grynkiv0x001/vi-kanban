@@ -6321,6 +6321,8 @@ __metadata:
 "shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "shared@workspace:packages/shared"
+  dependencies:
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
