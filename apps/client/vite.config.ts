@@ -16,4 +16,8 @@ export default defineConfig({
       'shared': path.resolve(__dirname, '../../packages/shared'),
     },
   },
+  build: {
+    outDir: 'dist',
+  },
+  base: '/',
 });
