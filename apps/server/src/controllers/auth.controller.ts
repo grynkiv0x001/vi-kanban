@@ -87,9 +87,10 @@ export const refresh = async (req: Request, res: Response) => {
 
     res.cookie('accessToken', newAccessToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'strict',
-      maxAge: 60 * 1000,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 15 * 60 * 1000,
     });
 
     res.status(200).json({});
