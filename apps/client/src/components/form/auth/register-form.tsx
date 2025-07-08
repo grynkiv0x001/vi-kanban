@@ -6,7 +6,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { closeModal, setModalInstance } from '@/store/features/modal';
 import { useRegisterMutation } from '@/store/services/base.api';
 
-import { form } from './auth-form.styles';
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
+
+import { form, textBtn } from './auth-form.styles';
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
@@ -34,24 +37,26 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form id={formId} onSubmit={handleSubmit} css={form}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={isLoading}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={isLoading}
-      />
-      <button onClick={openLoginForm}>
-        Already have account {'->'}
-      </button>
-    </form>
+    <>
+      <form id={formId} onSubmit={handleSubmit} css={form}>
+        <Input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+        />
+      </form>
+      <Button onClick={openLoginForm} variant="text" styles={textBtn}>
+        Already have an account
+      </Button>
+    </>
   );
 };

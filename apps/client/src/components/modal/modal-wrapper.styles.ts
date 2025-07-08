@@ -1,9 +1,7 @@
 import { css, type Theme } from '@emotion/react';
 
-export const footer = (theme: Theme) => css`
-  padding: 8px;
-  margin-block-start: auto;
-
+export const wrapper = (theme: Theme) => css`
   background-color: ${theme.colors.prePrimary};
+  border: none;
   color: ${theme.colors.secondary};
 `;

@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks';
 
 import { CreateListForm, CreateProjectForm, CreateTaskForm } from '@/components/form';
+import { Button } from '@/components/button';
 
 import * as styles from './create-modal.styles';
 
@@ -26,8 +27,8 @@ export const CreateModal = () => {
       <main>
         {renderCreateForm()}
       </main>
-      <footer>
-        <button type="submit" form={formId}>Create</button>
+      <footer css={styles.footer}>
+        <Button type="submit" form={formId}>Create</Button>
       </footer>
     </section>
   );

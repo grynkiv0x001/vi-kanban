@@ -6,6 +6,8 @@ import { closeModal } from '@/store/features/modal';
 
 import { AuthModal, CreateModal } from '@/components/modal/types';
 
+import { wrapper } from './modal-wrapper.styles';
+
 export const ModalWrapper = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
@@ -66,7 +68,7 @@ export const ModalWrapper = () => {
   }, [isOpen, handleClose]);
 
   return (
-    <dialog ref={dialogRef} onClose={handleClose}>
+    <dialog ref={dialogRef} onClose={handleClose} css={wrapper}>
       {renderModal()}
     </dialog>
   );

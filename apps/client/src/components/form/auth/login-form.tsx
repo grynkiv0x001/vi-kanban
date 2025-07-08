@@ -5,7 +5,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { closeModal, setModalInstance } from '@/store/features/modal';
 import { useLoginMutation } from '@/store/services/base.api';
 
-import { form } from './auth-form.styles';
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
+
+import { form, textBtn } from './auth-form.styles';
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -31,24 +34,26 @@ export const LoginForm = () => {
   };
 
   return (
-    <form id={formId} onSubmit={handleSubmit} css={form}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={isLoading}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={isLoading}
-      />
-      <button onClick={openRegisterForm}>
-        Don't have account {'->'}
-      </button>
-    </form>
+    <>
+      <form id={formId} onSubmit={handleSubmit} css={form}>
+        <Input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+        />
+      </form>
+      <Button onClick={openRegisterForm} variant="text" styles={textBtn}>
+        Don't have an account
+      </Button>
+    </>
   );
 };

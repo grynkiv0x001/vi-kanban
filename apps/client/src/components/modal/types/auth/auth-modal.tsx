@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks';
 
 import { LoginForm, RegisterForm } from '@/components/form';
+import { Button } from '@/components/button';
 
 import * as styles from './auth-modal.styles';
 
@@ -24,8 +25,8 @@ export const AuthModal = () => {
       <main>
         {renderAuthForm()}
       </main>
-      <footer>
-        <button type="submit" form={formId}>Continue</button>
+      <footer css={styles.footer}>
+        <Button type="submit" form={formId}>Continue</Button>
       </footer>
     </section>
   );

@@ -9,3 +9,9 @@ export const modal = css`
 export const title = css`
   text-transform: capitalize;
 `;
+
+export const footer = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;

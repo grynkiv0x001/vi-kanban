@@ -2,10 +2,12 @@ import type { ReactElement }  from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { MemoryRouter } from 'react-router';
 
 import { modalReducer } from '@/store/features';
 import { baseApi } from '@/store/services/base.api';
-import { MemoryRouter } from 'react-router';
+
+import { ThemeProvider } from '@/components/theme-provider';
 
 type Props = {
   Component: ReactElement;
@@ -25,7 +27,9 @@ export const renderWithProviders = ({ Component, initialEntries = ['/'] }: Props
   return render(
     <Provider store={store}>
       <MemoryRouter initialEntries={initialEntries}>
-        {Component}
+        <ThemeProvider>
+          {Component}
+        </ThemeProvider>
       </MemoryRouter>
     </Provider>,
   );

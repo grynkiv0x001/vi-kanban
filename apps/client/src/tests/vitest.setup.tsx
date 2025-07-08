@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { beforeAll, vi } from 'vitest';
 
 import { MockedSvg } from '@/mocks/svg-mock';
 
@@ -10,3 +10,17 @@ for (const svgPath in svgs) {
     default: () => <MockedSvg />,
   }));
 }
+
+beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query: string) => ({
+      matches: query.includes('dark'),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }),
+  });
+});
