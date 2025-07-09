@@ -12,6 +12,9 @@ import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/l
 
 import { Task } from '@/views/task';
 
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
+
 import * as styles from './list.styles';
 
 export const List = (list: ListPropType) => {
@@ -58,7 +61,7 @@ export const List = (list: ListPropType) => {
   return (
     <dl css={styles.list}>
       <dt css={styles.head}>
-        <input
+        <Input
           required
           type="text"
           value={listName}
@@ -66,6 +69,7 @@ export const List = (list: ListPropType) => {
           onBlur={handleBlur}
           disabled={updating}
           css={styles.name}
+          variant="secondary"
         />
         <button css={styles.removeListBtn} onClick={handleListRemoval} disabled={isLoading}>
           <TrashIcon width={16} height={16} />
@@ -75,9 +79,9 @@ export const List = (list: ListPropType) => {
         <Task key={task.id} {...task} />
       ))}
       <dd css={styles.createTaskBtn}>
-        <button onClick={handleTaskCreation}>
+        <Button onClick={handleTaskCreation} variant="secondary">
           + Add task
-        </button>
+        </Button>
       </dd>
     </dl>
   );

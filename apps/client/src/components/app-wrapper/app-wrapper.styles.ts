@@ -34,7 +34,6 @@ export const global = (theme: Theme) => css`
 
   * {
     font-family: 'MapleMono', Helvetica, Arial, sans-serif;
-    caret-color: ${theme.colors.primary};
   }
 
   html, body, #root {
@@ -43,6 +42,7 @@ export const global = (theme: Theme) => css`
   }
   
   a {
+    color: ${theme.colors.tertiary};
     text-decoration: none;
   }
 `;
@@ -51,8 +51,8 @@ export const wrapper = (theme: Theme) => css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: ${theme.colors.background};
-  color: ${theme.colors.text};
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.secondary};
   
   & > section {
     overflow: auto;

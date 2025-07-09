@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { closeModal } from '@/store/features/modal';
 import { useCreateListMutation } from '@/store/features/lists';
 
+import { Input } from '@/components/input';
+
 import { form } from './create-form.styles';
 
 export const CreateListForm = () => {
@@ -33,14 +35,14 @@ export const CreateListForm = () => {
 
   return (
     <form id={formId} onSubmit={handleSubmit} css={form}>
-      <input
+      <Input
         type="text"
         name="name"
         placeholder="List name"
         onChange={(e) => setName(e.target.value)}
         disabled={isLoading}
       />
-      <input
+      <Input
         type="number"
         name="position"
         placeholder="Position"

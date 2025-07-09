@@ -5,3 +5,7 @@ export const form = css`
   flex-direction: column;
   gap: 8px;
 `;
+
+export const textBtn = css`
+  margin-top: 12px;
+`;

@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { closeModal } from '@/store/features/modal';
 import { useCreateProjectMutation } from '@/store/features/projects';
 
+import { Input } from '@/components/input';
+
 export const CreateProjectForm = () => {
   const dispatch = useAppDispatch();
   const { formId } = useAppSelector(state => state.modal);
@@ -25,7 +27,7 @@ export const CreateProjectForm = () => {
 
   return (
     <form id={formId} onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         name="name"
         placeholder="Project name"

@@ -5,6 +5,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { closeModal } from '@/store/features/modal';
 import { useCreateTaskMutation } from '@/store/features/tasks';
 
+import { Input } from '@/components/input';
+import { TextArea } from '@/components/textarea';
+
 import { form } from './create-form.styles';
 
 export const CreateTaskForm = () => {
@@ -40,20 +43,20 @@ export const CreateTaskForm = () => {
 
   return (
     <form id={formId} onSubmit={handleSubmit} css={form}>
-      <input
+      <Input
         type="text"
         name="name"
         placeholder="Task name"
         onChange={(e) => setName(e.target.value)}
         disabled={isLoading}
       />
-      <textarea
+      <TextArea
         name="description"
         placeholder="Description"
         onChange={(e) => setDescription(e.target.value)}
         disabled={isLoading}
       />
-      <input
+      <Input
         type="number"
         name="position"
         placeholder="Position"

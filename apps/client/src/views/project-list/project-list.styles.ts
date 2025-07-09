@@ -10,16 +10,16 @@ export const project = (theme: Theme) => css`
   padding: 32px;
   display: flex;
   flex-basis: 300px;
-  border: 1px solid ${theme.colors.text};
-  color: ${theme.colors.text};
+  border: 2px solid ${theme.colors.secondary};
+  color: ${theme.colors.secondary};
   
   button {
     opacity: 0;
   }
   
   &:hover {
-    color: ${theme.colors.primary};
-    border-color: ${theme.colors.primary};
+    color: ${theme.colors.accent};
+    border-color: ${theme.colors.accent};
     
     button {
       opacity: 1;
@@ -31,13 +31,13 @@ export const addProjectBtn = (theme: Theme) => css`
   padding: 32px;
   flex-basis: 300px;
   background-color: transparent;
-  border: 1px solid ${theme.colors.background};
-  color: ${theme.colors.background};
+  border: 2px solid ${theme.colors.secondary};
+  color: ${theme.colors.secondary};
   text-align: left;
 
   &:hover {
-    color: ${theme.colors.primary};
-    border-color: ${theme.colors.primary};
+    color: ${theme.colors.accent};
+    border-color: ${theme.colors.accent};
     cursor: pointer;
   } 
 `;
@@ -49,13 +49,17 @@ export const removeProjectBtn = (theme: Theme) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${theme.colors.text};
+  background-color: ${theme.colors.prePrimary};
   border: none;
   cursor: pointer;
   
+  svg {
+    fill: ${theme.colors.secondary};
+  }
+  
   &:hover {
     svg {
-      fill: ${theme.colors.primary};
+      fill: ${theme.colors.danger};
     }
   }
 `;

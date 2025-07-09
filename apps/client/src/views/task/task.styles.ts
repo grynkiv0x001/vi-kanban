@@ -19,7 +19,7 @@ export const task = (theme: Theme) => css`
     cursor: pointer;
 
     svg {
-      fill: ${theme.colors.primary};
+      fill: ${theme.colors.danger};
     }
   }
 
@@ -29,9 +29,8 @@ export const task = (theme: Theme) => css`
 `;
 
 export const name = css`
+  padding: 0;
   width: 100%;
   text-overflow: ellipsis;
   background-color: transparent;
-  border: none;
-  outline: none;
 `;

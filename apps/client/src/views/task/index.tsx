@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
+
 import { type Task as TaskPropType } from 'shared/src/types';
 
 import { DeleteIcon } from '@/assets/icons';
 
 import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/store/features/tasks';
 
+import { Input } from '@/components/input';
+
 import * as styles from './task.styles';
-import { useEffect, useState } from 'react';
 
 export const Task = (task: TaskPropType) => {
   const { name, id, projectId, listId } = task;
@@ -37,13 +40,14 @@ export const Task = (task: TaskPropType) => {
 
   return (
     <dd css={styles.task}>
-      <input
+      <Input
         type="text"
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
         onBlur={handleBlur}
         disabled={updating}
         css={styles.name}
+        variant="secondary"
       />
       <button onClick={handleTaskRemoval}>
         <DeleteIcon width={16} height={16} />

@@ -8,6 +8,8 @@ import { openModal } from '@/store/features/modal';
 
 import { List } from '@/views/list';
 
+import { Button } from '@/components/button';
+
 import * as styles from './project.styles';
 
 export const ProjectView = () => {
@@ -49,9 +51,9 @@ export const ProjectView = () => {
       {lists?.map((list) => (
         <List key={list.id} {...list} />
       ))}
-      <button css={styles.addListBtn} disabled={listsLoading} onClick={handleListCreation}>
+      <Button onClick={handleListCreation} disabled={listsLoading} styles={styles.addListBtn}>
         + Add list
-      </button>
+      </Button>
     </section>
   );
 };

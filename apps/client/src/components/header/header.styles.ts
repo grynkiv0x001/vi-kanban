@@ -5,13 +5,13 @@ export const header = (theme: Theme) => css`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
-  height: 42px;
+  min-height: 42px;
 
-  background-color: ${theme.colors.background};
-  color: ${theme.colors.text};
+  background-color: ${theme.colors.prePrimary};
+  color: ${theme.colors.secondary};
   
   a {
-    color: ${theme.colors.text};
+    color: ${theme.colors.secondary};
   }
 `;
 
@@ -24,7 +24,7 @@ export const nav = css`
 
 export const logo = (theme: Theme) => css`
   svg {
-    fill: ${theme.colors.primary};
+    fill: ${theme.colors.accent};
   }
 `;
 
@@ -34,25 +34,11 @@ export const actions = css`
   justify-self: flex-end;
 `;
 
-export const projectName = (theme: Theme) => css`
-  input {
-    background-color: transparent;
-    border: none;
-    color: ${theme.colors.text};
-    outline: none;
-  }
-`;
-
-export const searchBar = (theme: Theme) => css`
-  background-color: ${theme.colors.text};
-  border: none;
-`;
-
 export const accountBtn = (theme: Theme) => css`
   margin: 0;
   padding: 0;
   background-color: transparent;
   border: none;
-  color: ${theme.colors.text};
+  color: ${theme.colors.secondary};
   cursor: pointer;
 `;

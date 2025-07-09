@@ -8,6 +8,8 @@ import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
 import { openModal } from '@/store/features/modal';
 
+import { Input } from '@/components/input';
+
 import * as styles from './header.styles';
 
 export const Header = () => {
@@ -46,19 +48,20 @@ export const Header = () => {
         <a href="/" css={styles.logo}>
           <BluePrintIcon width={18} height={18} />
         </a>
-        <div css={styles.projectName}>
+        <div>
           {currentProject && (
-            <input
+            <Input
               type="text"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               onBlur={handleBlur}
               disabled={isLoading}
+              variant="secondary"
             />
           )}
         </div>
       </nav>
-      <input css={styles.searchBar} type="text" name="search" placeholder="Search..." />
+      <Input type="text" name="search" placeholder="Search..." />
       <nav css={styles.actions}>
         <a href="#">Create</a>
         <a href="#">Settings</a>
