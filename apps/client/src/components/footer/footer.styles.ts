@@ -7,3 +7,7 @@ export const footer = (theme: Theme) => css`
   background-color: ${theme.colors.prePrimary};
   color: ${theme.colors.secondary};
 `;
+
+export const modeName = css`
+  text-transform: capitalize;
+`;

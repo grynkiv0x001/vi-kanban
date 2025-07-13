@@ -1,16 +1,26 @@
 import { type ReactNode, useCallback, useEffect } from 'react';
 
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { setViMode } from '@/store/features/vi';
+import { setViMode, setCaretPosition } from '@/store/features/vi';
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
+  const { mode, caretPosition, viElements } = useAppSelector(state => state.vi);
 
   const handleKeyboard = useCallback((e: KeyboardEvent) => {
     const actions: Record<string, () => void> = {
       'i': () => dispatch(setViMode('insert')),
       'Escape': () => dispatch(setViMode('normal')),
+      ':': () => mode !== 'insert' && dispatch(setViMode('command')),
+      'h': () => dispatch(setCaretPosition({
+        elementIndex: caretPosition.elementIndex - 1,
+        elementId: viElements.find((element) => element.index === caretPosition.elementIndex - 1)?.id,
+      })),
+      'l': () => dispatch(setCaretPosition({
+        elementIndex: caretPosition.elementIndex + 1,
+        elementId: viElements.find((element) => element.index === caretPosition.elementIndex + 1)?.id,
+      })),
     };
 
     const action = actions[e.key];
@@ -18,7 +28,7 @@ export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
     if (action) {
       action();
     }
-  }, [dispatch]);
+  }, [caretPosition.elementIndex, dispatch, mode, viElements]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard);
