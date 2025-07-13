@@ -1,22 +1,57 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+export type ViElement = {
+  id: string;
+  index: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
+
 interface IViState {
   enabled: boolean;
   mode: 'normal' | 'insert' | 'visual' | 'command';
   caretPosition: {
-    elementIndex: number;
+    row: number;
+    col: number;
     elementId?: string;
   };
-  viElements: { id: string; index: number }[];
+  viElements: ViElement[][];
 }
 
 const initialState: IViState = {
   enabled: true,
   mode: 'normal',
   caretPosition: {
-    elementIndex: 0,
+    row: 0,
+    col: 0,
   },
   viElements: [],
+};
+
+const groupIntoGrid = (elements: ViElement[], tolerance = 10): ViElement[][] => {
+  const rows: ViElement[][] = [];
+
+  for (const el of elements) {
+    const row = rows.find(r =>
+      r.length > 0 && Math.abs(r[0].top - el.top) <= tolerance,
+    );
+
+    if (row) {
+      row.push(el);
+    } else {
+      rows.push([el]);
+    }
+  }
+
+  for (const row of rows) {
+    row.sort((a, b) => a.left - b.left);
+  }
+
+  rows.sort((a, b) => a[0].top - b[0].top);
+
+  return rows;
 };
 
 const viSlice = createSlice({
@@ -32,8 +67,8 @@ const viSlice = createSlice({
     setCaretPosition(state, action: PayloadAction<IViState['caretPosition']>) {
       state.caretPosition = action.payload;
     },
-    setViElements(state, action: PayloadAction<IViState['viElements']>) {
-      state.viElements = action.payload;
+    setViElements(state, action: PayloadAction<ViElement[]>) {
+      state.viElements = groupIntoGrid(action.payload);
     },
   },
 });

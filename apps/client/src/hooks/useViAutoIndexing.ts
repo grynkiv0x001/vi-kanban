@@ -19,7 +19,16 @@ export const useViAutoIndexing = () => {
 
         el.setAttribute('data-vi-index', String(index));
 
-        return { id, index };
+        const rect = el.getBoundingClientRect();
+
+        return {
+          id,
+          index,
+          top: rect.top + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+          height: rect.height,
+        };
       });
 
       dispatch(setViElements(viElements));
