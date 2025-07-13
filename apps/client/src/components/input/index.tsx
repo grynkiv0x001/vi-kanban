@@ -13,7 +13,7 @@ export const Input = ({ variant = 'primary', ...rest }: InputProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const { mode } = useAppSelector(state => state.vi);
+  const { mode, caretPosition } = useAppSelector(state => state.vi);
 
   const handleFocus = () => {
     if (mode !== 'command') {
@@ -22,21 +22,16 @@ export const Input = ({ variant = 'primary', ...rest }: InputProps) => {
   };
 
   useEffect(() => {
+    if (mode === 'insert') {
+      if (inputRef.current?.dataset.viId === caretPosition.elementId) {
+        inputRef.current?.focus();
+      }
+    }
+
     if (mode === 'normal') {
       inputRef.current?.blur();
-      return;
     }
-
-    if (mode === 'command') {
-      inputRef.current?.focus();
-      return;
-    }
-
-    if (mode === 'insert') {
-      inputRef.current?.focus();
-      return;
-    }
-  }, [mode]);
+  }, [mode, caretPosition]);
 
   return (
     <input

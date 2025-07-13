@@ -7,6 +7,7 @@ import * as styles from './caret.styles';
 interface IPosition {
   top: number;
   left: number;
+  height: number;
 }
 
 export const Caret = () => {
@@ -14,7 +15,7 @@ export const Caret = () => {
   const [position, setPosition] = useState<IPosition | null>(null);
 
   useEffect(() => {
-    if (caretPosition.elementId) {
+    if (caretPosition.elementId && mode !== 'insert') {
       const element = document.querySelector(`[data-vi-id="${caretPosition.elementId}"]`);
       if (!element) return;
 
@@ -23,17 +24,24 @@ export const Caret = () => {
       setPosition({
         top: rect.top + window.scrollY,
         left: rect.left + window.scrollX,
+        height: rect.height,
       });
     }
-  }, [caretPosition]);
+  }, [caretPosition, mode]);
+
+  if (!caretPosition.elementId || mode === 'insert') {
+    return null;
+  }
 
   return (
     <div
-      css={[styles.caret, mode === 'insert' && styles.insert]}
+      css={styles.caret}
       style={{
         position: 'absolute',
         top: position?.top,
         left: position?.left,
+        height: position?.height || '16px',
+        width: position?.height ? position.height / 2 : '4px',
       }}
     />
   );

@@ -38,3 +38,13 @@ export const text = (theme: Theme) => css`
   border: none;
   color: ${theme.colors.tertiary};
 `;
+
+export const textSecondary = (theme: Theme) => css`
+  padding: 0;
+  border: none;
+  color: ${theme.colors.secondary};
+
+  &:hover {
+    color: ${theme.colors.accent};
+  }
+`;

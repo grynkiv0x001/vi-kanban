@@ -2,7 +2,6 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export type ViElement = {
   id: string;
-  index: number;
   top: number;
   left: number;
   width: number;
@@ -68,7 +67,7 @@ const viSlice = createSlice({
       state.caretPosition = action.payload;
     },
     setViElements(state, action: PayloadAction<ViElement[]>) {
-      state.viElements = groupIntoGrid(action.payload);
+      state.viElements = groupIntoGrid(action.payload, 20);
     },
   },
 });

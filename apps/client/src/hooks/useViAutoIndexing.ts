@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useAppDispatch } from '@/hooks/store.ts';
 import { setViElements } from '@/store/features/vi';
 
@@ -9,7 +10,7 @@ export const useViAutoIndexing = () => {
     const assignIndexes = () => {
       const items = Array.from(document.querySelectorAll('[data-vi="on"]'));
 
-      const viElements = items.map((el, index) => {
+      const viElements = items.map((el) => {
         let id = el.getAttribute('data-vi-id');
 
         if (!id) {
@@ -17,13 +18,10 @@ export const useViAutoIndexing = () => {
           el.setAttribute('data-vi-id', id);
         }
 
-        el.setAttribute('data-vi-index', String(index));
-
         const rect = el.getBoundingClientRect();
 
         return {
           id,
-          index,
           top: rect.top + window.scrollY,
           left: rect.left + window.scrollX,
           width: rect.width,

@@ -8,6 +8,7 @@ import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
 import { openModal } from '@/store/features/modal';
 
+import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 
 import * as styles from './header.styles';
@@ -42,6 +43,13 @@ export const Header = () => {
     }));
   };
 
+  const openSettings = () => {
+    dispatch(openModal({
+      type: 'settings',
+      instance: 'app',
+    }));
+  };
+
   return (
     <header css={styles.header}>
       <nav css={styles.nav}>
@@ -63,11 +71,13 @@ export const Header = () => {
       </nav>
       <Input type="text" name="search" placeholder="Search..." />
       <nav css={styles.actions}>
-        <a href="#">Create</a>
-        <a href="#">Settings</a>
-        <button onClick={handleLogin} css={styles.accountBtn}>
+        <Button variant="secondary">Create</Button>
+        <Button variant="textSecondary" onClick={openSettings}>
+          Settings
+        </Button>
+        <Button variant="textSecondary" onClick={handleLogin}>
           Account
-        </button>
+        </Button>
       </nav>
     </header>
   );
