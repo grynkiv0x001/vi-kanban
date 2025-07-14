@@ -10,6 +10,7 @@ export type ViElement = {
 
 interface IViState {
   enabled: boolean;
+  device: 'keyboard' | 'mouse';
   mode: 'normal' | 'insert' | 'visual' | 'command';
   caretPosition: {
     row: number;
@@ -21,6 +22,7 @@ interface IViState {
 
 const initialState: IViState = {
   enabled: true,
+  device: 'keyboard',
   mode: 'normal',
   caretPosition: {
     row: 0,
@@ -60,6 +62,9 @@ const viSlice = createSlice({
     toggleVi(state, action: PayloadAction<boolean>) {
       state.enabled = action.payload;
     },
+    setDevice(state, action: PayloadAction<IViState['device']>) {
+      state.device = action.payload;
+    },
     setViMode(state, action: PayloadAction<IViState['mode']>) {
       state.mode = action.payload;
     },
@@ -72,6 +77,6 @@ const viSlice = createSlice({
   },
 });
 
-export const { toggleVi, setViMode, setCaretPosition, setViElements } = viSlice.actions;
+export const { toggleVi, setDevice, setViMode, setCaretPosition, setViElements } = viSlice.actions;
 
 export default viSlice.reducer;

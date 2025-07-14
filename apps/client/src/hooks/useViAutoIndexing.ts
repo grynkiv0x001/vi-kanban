@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '@/hooks/store.ts';
-import { setViElements } from '@/store/features/vi';
+import { useAppDispatch } from '@/hooks/store';
+import { setCaretPosition, setViElements } from '@/store/features/vi';
 
 export const useViAutoIndexing = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +30,7 @@ export const useViAutoIndexing = () => {
       });
 
       dispatch(setViElements(viElements));
+      dispatch(setCaretPosition({ row: 0, col: 0 }));
     };
 
     assignIndexes();

@@ -14,17 +14,17 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const Button = ({ children, styles, variant = 'primary', ...rest }: ButtonProps) => {
   const dispatch = useAppDispatch();
-  const { mode, caretPosition } = useAppSelector(state => state.vi);
+  const { device, mode, caretPosition } = useAppSelector(state => state.vi);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (mode === 'insert') {
-      if (buttonRef.current?.dataset.viId === caretPosition.elementId) {
+      if (buttonRef.current?.dataset.viId === caretPosition.elementId && device === 'keyboard') {
         buttonRef.current?.click();
         dispatch(setViMode('normal'));
       }
     }
-  }, [mode, caretPosition, dispatch]);
+  }, [device, mode, caretPosition, dispatch]);
 
   return (
     <button

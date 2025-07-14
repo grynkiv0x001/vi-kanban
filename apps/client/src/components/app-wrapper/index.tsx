@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Global } from '@emotion/react';
 
-import { Caret } from '@/components/caret';
+import { ShadowCaret } from '@/components/caret';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import * as styles from './app-wrapper.styles';
@@ -9,7 +9,7 @@ import * as styles from './app-wrapper.styles';
 export const AppWrapper = ({ children }: { children: ReactNode }) => (
   <ThemeProvider>
     <section css={styles.wrapper}>
-      <Caret />
+      <ShadowCaret />
       <Global styles={styles.global} />
       {children}
     </section>
