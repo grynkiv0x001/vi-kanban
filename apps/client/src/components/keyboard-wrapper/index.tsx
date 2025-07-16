@@ -1,16 +1,104 @@
 import { type ReactNode, useCallback, useEffect } from 'react';
 
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { setViMode } from '@/store/features/vi';
+import { setDevice, setViMode, setCaretPosition, type ViElement } from '@/store/features/vi';
+
+export const Directions = {
+  H: 'h',
+  J: 'j',
+  K: 'k',
+  L: 'l',
+} as const;
+
+export type Direction = typeof Directions[keyof typeof Directions];
+
+// TODO: add more functionality ('$' and '0', amount, 'G' and 'gg' etc.)
+const moveCaret = (
+  viElements: ViElement[][],
+  current: { row: number; col: number },
+  direction: Direction,
+): { row: number; col: number; elementId: string } | null => {
+  let row = current.row;
+  let col = current.col;
+
+  switch (direction) {
+  case Directions.H:
+    col--;
+    break;
+  case Directions.J:
+    row++;
+    break;
+  case Directions.K:
+    row--;
+    break;
+  case Directions.L:
+    col++;
+    break;
+  }
+
+  if (row < 0 || row >= viElements.length) {
+    return null;
+  }
+
+  const targetRow = viElements[row];
+  const clampedCol = Math.min(col, targetRow.length - 1);
+
+  if (clampedCol < 0) return null;
+
+  const element = targetRow[clampedCol];
+
+  return {
+    row,
+    col: clampedCol,
+    elementId: element.id,
+  };
+};
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
+  const { mode, caretPosition, viElements, enabled } = useAppSelector(state => state.vi);
+
+  const move = useCallback((direction: Direction) => {
+    if (mode === 'insert' || mode === 'command') {
+      return;
+    }
+
+    const newPosition = moveCaret(viElements, caretPosition, direction);
+
+    if (newPosition) {
+      dispatch(setCaretPosition(newPosition));
+    }
+  }, [viElements, caretPosition, mode, dispatch]);
 
   const handleKeyboard = useCallback((e: KeyboardEvent) => {
     const actions: Record<string, () => void> = {
-      'i': () => dispatch(setViMode('insert')),
+      'i': () => {
+        if (mode === 'insert') {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        dispatch(setViMode('insert'));
+      },
       'Escape': () => dispatch(setViMode('normal')),
+      'Enter': () => {
+        if (mode === 'insert') {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        dispatch(setViMode('insert'));
+      },
+      ':': () => mode !== 'insert' && dispatch(setViMode('command')),
+      'h': () => move(Directions.H),
+      'j': () => move(Directions.J),
+      'k': () => move(Directions.K),
+      'l': () => move(Directions.L),
     };
 
     const action = actions[e.key];
@@ -18,13 +106,36 @@ export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
     if (action) {
       action();
     }
+  }, [dispatch, move, mode]);
+
+
+  useEffect(() => {
+    const handleMouseDown = () => {
+      dispatch(setDevice('mouse'));
+    };
+
+    const handleKeyDown = () => {
+      dispatch(setDevice('keyboard'));
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [dispatch]);
 
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     document.addEventListener('keydown', handleKeyboard);
 
     return () => document.removeEventListener('keydown', handleKeyboard);
-  }, [handleKeyboard]);
+  }, [handleKeyboard, enabled]);
 
   return children;
 };

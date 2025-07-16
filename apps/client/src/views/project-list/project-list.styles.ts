@@ -19,6 +19,7 @@ export const project = (theme: Theme) => css`
   
   &:hover {
     color: ${theme.colors.accent};
+    background-color: transparent;
     border-color: ${theme.colors.accent};
     
     button {
@@ -37,6 +38,7 @@ export const addProjectBtn = (theme: Theme) => css`
 
   &:hover {
     color: ${theme.colors.accent};
+    background-color: transparent;
     border-color: ${theme.colors.accent};
     cursor: pointer;
   } 

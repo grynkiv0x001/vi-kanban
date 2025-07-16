@@ -48,6 +48,7 @@ export const global = (theme: Theme) => css`
 `;
 
 export const wrapper = (theme: Theme) => css`
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;

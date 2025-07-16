@@ -33,12 +33,3 @@ export const actions = css`
   gap: 8px;
   justify-self: flex-end;
 `;
-
-export const accountBtn = (theme: Theme) => css`
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  color: ${theme.colors.secondary};
-  cursor: pointer;
-`;

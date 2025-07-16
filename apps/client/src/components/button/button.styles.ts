@@ -34,7 +34,17 @@ export const secondary = (theme: Theme) => css`
 `;
 
 export const text = (theme: Theme) => css`
-  padding: 0;
+  padding: 2px;
   border: none;
   color: ${theme.colors.tertiary};
+`;
+
+export const textSecondary = (theme: Theme) => css`
+  padding: 2px;
+  border: 2px solid transparent;
+  color: ${theme.colors.secondary};
+
+  &:hover {
+    color: ${theme.colors.accent};
+  }
 `;

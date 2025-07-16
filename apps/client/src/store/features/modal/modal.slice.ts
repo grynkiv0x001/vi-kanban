@@ -2,8 +2,8 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface IModalState {
   isOpen: boolean;
-  type: 'create' | 'auth' | null;
-  instance: 'project' | 'list' | 'task' | 'login' | 'register' | null;
+  type: 'create' | 'auth' | 'settings' | null;
+  instance: 'project' | 'list' | 'task' | 'login' | 'register' | 'app' | null;
   formId: string;
   ids?: Record<string, number>;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { MinusSmallIcon } from '@/assets/icons';
 
@@ -8,9 +8,12 @@ import { useAppDispatch } from '@/hooks';
 import { useDeleteProjectMutation, useGetProjectsQuery } from '@/store/features/projects';
 import { openModal } from '@/store/features/modal';
 
+import { Button } from '@/components/button';
+
 import * as styles from './project-list.styles';
 
 export const ProjectList = () => {
+  const navigate = useNavigate();
   const { data: projects, isLoading, isError } = useGetProjectsQuery();
   const [deleteProject] = useDeleteProjectMutation();
 
@@ -42,24 +45,27 @@ export const ProjectList = () => {
   return (
     <section css={styles.projects}>
       {projects?.map((project) => (
-        <Link
+        <Button
           key={project.id}
-          to={`/projects/${project.id}`}
+          variant="secondary"
           css={styles.project}
+          onClick={() => {
+            navigate(`/projects/${project.id}`);
+          }}
         >
           {project.name}
 
-          <button
+          <div
             css={styles.removeProjectBtn}
-            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleProjectRemoval(e, project.id)}
+            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleProjectRemoval(e, project.id)}
           >
             <MinusSmallIcon width={24} height={24} />
-          </button>
-        </Link>
+          </div>
+        </Button>
       ))}
-      <button css={styles.addProjectBtn} onClick={handleProjectCreation}>
+      <Button variant="secondary" css={styles.addProjectBtn} onClick={handleProjectCreation}>
         + Add project
-      </button>
+      </Button>
     </section>
   );
 };
