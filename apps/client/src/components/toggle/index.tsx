@@ -6,10 +6,11 @@ import { setViMode } from '@/store/features/vi';
 import * as s from './toggle.styles';
 
 type ToggleProps = InputHTMLAttributes<HTMLInputElement> & {
+  label?: string;
   variant?: 'primary' | 'secondary';
 };
 
-export const Toggle = ({ variant = 'primary', ...rest }: ToggleProps) => {
+export const Toggle = ({ label, ...rest }: ToggleProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
@@ -30,13 +31,17 @@ export const Toggle = ({ variant = 'primary', ...rest }: ToggleProps) => {
   }, [mode, caretPosition]);
 
   return (
-    <input
-      data-vi="on"
-      type="checkbox"
-      css={s.toggle}
-      onFocus={handleFocus}
-      ref={inputRef}
-      {...rest}
-    />
+    <label css={s.label}>
+      <span>{label}</span>
+      <input
+        data-vi="on"
+        type="checkbox"
+        css={s.toggle}
+        onFocus={handleFocus}
+        ref={inputRef}
+        {...rest}
+      />
+      <span css={s.slider} />
+    </label>
   );
 };

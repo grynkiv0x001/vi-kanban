@@ -20,8 +20,10 @@ interface IViState {
   viElements: ViElement[][];
 }
 
+const viEnabled = localStorage.getItem('vi-enabled');
+
 const initialState: IViState = {
-  enabled: true,
+  enabled: viEnabled === null ? true : viEnabled === 'true',
   device: 'keyboard',
   mode: 'normal',
   caretPosition: {

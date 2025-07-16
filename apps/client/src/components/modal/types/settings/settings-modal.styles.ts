@@ -6,6 +6,10 @@ export const modal = css`
   gap: 16px;
 `;
 
+export const title = css`
+  text-transform: capitalize;
+`;
+
 export const footer = css`
   display: flex;
   align-items: center;

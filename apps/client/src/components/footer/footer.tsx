@@ -9,20 +9,22 @@ export const Footer = () => {
   const { enabled, mode } = useAppSelector(state  => state.vi);
   const [commandLineState, setCommandLineState] = useState<string>('');
 
+  if (!enabled) {
+    return null;
+  }
+
   return (
     <footer css={styles.footer}>
-      {enabled && (
-        <div css={styles.modeName}>
-          {mode === 'command' ? (
-            <Input
-              style={{ padding: 0 }}
-              variant="secondary"
-              value={commandLineState}
-              onChange={(e) => setCommandLineState(e.target.value)}
-            />
-          ) : mode}
-        </div>
-      )}
+      <div css={styles.modeName}>
+        {mode === 'command' ? (
+          <Input
+            style={{ padding: 0 }}
+            variant="secondary"
+            value={commandLineState}
+            onChange={(e) => setCommandLineState(e.target.value)}
+          />
+        ) : mode}
+      </div>
     </footer>
   );
 };
