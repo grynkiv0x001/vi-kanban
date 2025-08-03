@@ -1,11 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Task } from 'shared/src/types';
 
 interface IModalState {
   isOpen: boolean;
-  type: 'create' | 'auth' | 'settings' | null;
+  type: 'create' | 'auth' | 'settings' | 'edit' | null;
   instance: 'project' | 'list' | 'task' | 'login' | 'register' | 'app' | null;
   formId: string;
   ids?: Record<string, number>;
+  data?: Task;
 }
 
 const initialState: IModalState = {
@@ -25,6 +27,10 @@ export const modalSlice = createSlice({
       state.instance = action.payload.instance;
       state.formId = `${action.payload.type}-${action.payload.instance}-form`;
       state.ids = action.payload.ids;
+
+      if (action.payload.type === 'edit') {
+        state.data = action.payload.data;
+      }
     },
     closeModal: (state) => {
       state.isOpen = false;
@@ -32,6 +38,7 @@ export const modalSlice = createSlice({
       state.instance = null;
       state.formId = '';
       state.ids = undefined;
+      state.data = undefined;
     },
     setModalType: (state, action: PayloadAction<IModalState['type']>) => {
       state.type = action.payload;

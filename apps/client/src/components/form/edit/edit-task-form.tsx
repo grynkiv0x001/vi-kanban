@@ -4,43 +4,26 @@ import Markdown from 'react-markdown';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { closeModal } from '@/store/features/modal';
-import { useCreateTaskMutation } from '@/store/features/tasks';
+import { useUpdateTaskMutation } from '@/store/features/tasks';
 
 import { Input } from '@/components/input';
 import { TextArea } from '@/components/textarea';
 
-import * as styles from './create-form.styles';
+import * as styles from './edit-form.styles';
 
-export const CreateTaskForm = () => {
+export const EditTaskForm = () => {
   const dispatch = useAppDispatch();
-  const { formId, ids } = useAppSelector(state => state.modal);
-  const { currentProject } = useAppSelector(state => state.project);
-  const [createTask, { isLoading }] = useCreateTaskMutation();
+  const { formId, data } = useAppSelector(state => state.modal);
 
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [position, setPosition] = useState<number | null>(null);
-  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [updateTask, { isLoading }] = useUpdateTaskMutation();
+
+  const [name, setName] = useState<string>(data?.name || '');
+  const [description, setDescription] = useState<string>(data?.description || '');
+  const [position, setPosition] = useState<number | null>(data?.position || null);
+  const [showPreview, setShowPreview] = useState<boolean>(true);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!currentProject || !currentProject.id || !ids || !ids.listId) {
-      return;
-    }
-
-    try {
-      await createTask({
-        name,
-        position,
-        description,
-        projectId: currentProject.id,
-        listId: ids.listId,
-      }).unwrap();
-      dispatch(closeModal());
-    } catch (err) {
-      console.error('Failed to create a task:', err);
-    }
   };
 
   return (
