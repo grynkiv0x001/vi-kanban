@@ -52,7 +52,7 @@ export const CreateTaskForm = () => {
         onChange={(e) => setName(e.target.value)}
         disabled={isLoading}
       />
-      {showPreview ? (
+      {(showPreview && description) ? (
         <div onClick={() => setShowPreview(false)} css={styles.description}>
           <Markdown>{description}</Markdown>
         </div>

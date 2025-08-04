@@ -58,10 +58,10 @@ export const Task = (task: TaskPropType) => {
         css={styles.name}
         variant="secondary"
       />
-      <button onClick={editTask}>
+      <button css={[styles.actionBtn, styles.editBtn]} onClick={editTask}>
         <PenFieldIcon width={16} height={16} />
       </button>
-      <button onClick={handleTaskRemoval}>
+      <button css={[styles.actionBtn, styles.deleteBtn]} onClick={handleTaskRemoval}>
         <DeleteIcon width={16} height={16} />
       </button>
     </dd>

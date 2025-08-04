@@ -20,10 +20,19 @@ export const EditTaskForm = () => {
   const [name, setName] = useState<string>(data?.name || '');
   const [description, setDescription] = useState<string>(data?.description || '');
   const [position, setPosition] = useState<number | null>(data?.position || null);
-  const [showPreview, setShowPreview] = useState<boolean>(true);
+  const [showPreview, setShowPreview] = useState(data?.description || false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    console.log('data: ', data);
+
+    // await updateTask({
+    //   ...data,
+    //   name,
+    //   description,
+    //   position,
+    // });
   };
 
   return (
@@ -33,9 +42,10 @@ export const EditTaskForm = () => {
         name="name"
         placeholder="Task name"
         onChange={(e) => setName(e.target.value)}
+        value={name}
         disabled={isLoading}
       />
-      {showPreview ? (
+      {(showPreview && description) ? (
         <div onClick={() => setShowPreview(false)} css={styles.description}>
           <Markdown>{description}</Markdown>
         </div>
@@ -57,6 +67,7 @@ export const EditTaskForm = () => {
         placeholder="Position"
         onChange={(e) => setPosition(Number(e.target.value))}
         disabled={isLoading}
+        value={position || 0}
       />
     </form>
   );
