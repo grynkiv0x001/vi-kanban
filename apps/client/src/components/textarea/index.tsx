@@ -10,6 +10,15 @@ type InputProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 
 export const TextArea = ({ variant = 'primary', styles, ...rest }: InputProps) => {
   return (
-    <textarea css={[s.textArea, s[variant], styles]} {...rest} />
+    <textarea
+      css={[s.textArea, s[variant], styles]}
+      onFocus={(e) =>
+        e.currentTarget.setSelectionRange(
+          e.currentTarget.value.length,
+          e.currentTarget.value.length,
+        )
+      }
+      {...rest}
+    />
   );
 };

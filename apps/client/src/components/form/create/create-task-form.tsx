@@ -53,7 +53,12 @@ export const CreateTaskForm = () => {
         disabled={isLoading}
       />
       {(showPreview && description) ? (
-        <div onClick={() => setShowPreview(false)} css={styles.description}>
+        <div
+          tabIndex={0}
+          onFocus={() => setShowPreview(false)}
+          onClick={() => setShowPreview(false)}
+          css={styles.description}
+        >
           <Markdown>{description}</Markdown>
         </div>
       ) : (

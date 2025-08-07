@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Markdown from 'react-markdown';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -15,24 +15,32 @@ export const EditTaskForm = () => {
   const dispatch = useAppDispatch();
   const { formId, data } = useAppSelector(state => state.modal);
 
-  const [updateTask, { isLoading }] = useUpdateTaskMutation();
+  const [updateTask, { isLoading, isSuccess }] = useUpdateTaskMutation();
 
   const [name, setName] = useState<string>(data?.name || '');
   const [description, setDescription] = useState<string>(data?.description || '');
   const [position, setPosition] = useState<number | null>(data?.position || null);
   const [showPreview, setShowPreview] = useState(data?.description || false);
 
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(closeModal());
+    }
+  }, [isSuccess, dispatch]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('data: ', data);
+    if (!data) {
+      return;
+    }
 
-    // await updateTask({
-    //   ...data,
-    //   name,
-    //   description,
-    //   position,
-    // });
+    await updateTask({
+      ...data,
+      name,
+      description,
+      position,
+    });
   };
 
   return (
@@ -46,7 +54,12 @@ export const EditTaskForm = () => {
         disabled={isLoading}
       />
       {(showPreview && description) ? (
-        <div onClick={() => setShowPreview(false)} css={styles.description}>
+        <div
+          tabIndex={0}
+          onFocus={() => setShowPreview(false)}
+          onClick={() => setShowPreview(false)}
+          css={styles.description}
+        >
           <Markdown>{description}</Markdown>
         </div>
       ) : (
