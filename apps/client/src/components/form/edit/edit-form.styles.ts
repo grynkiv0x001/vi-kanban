@@ -10,3 +10,4 @@ export const description = css`
   min-height: 400px;
   min-width: 620px;
 `;
+

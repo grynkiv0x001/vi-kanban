@@ -1,6 +1,6 @@
 import { css, type Theme } from '@emotion/react';
 
-export const task = (theme: Theme) => css`
+export const task = css`
   margin: 0;
   padding: 8px;
   display: flex;
@@ -10,17 +10,6 @@ export const task = (theme: Theme) => css`
   span {
     width: 100%;
     outline: none;
-  }
-
-  button {
-    background-color: transparent;
-    border: none;
-    opacity: 0;
-    cursor: pointer;
-
-    svg {
-      fill: ${theme.colors.danger};
-    }
   }
 
   &:hover button {
@@ -33,4 +22,23 @@ export const name = css`
   width: 100%;
   text-overflow: ellipsis;
   background-color: transparent;
+`;
+
+export const actionBtn = css`
+  background-color: transparent;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+`;
+
+export const editBtn = (theme: Theme) => css`
+  svg {
+    fill: ${theme.colors.tertiary};
+  }
+`;
+
+export const deleteBtn = (theme: Theme) => css`
+  svg {
+    fill: ${theme.colors.danger};
+  }
 `;

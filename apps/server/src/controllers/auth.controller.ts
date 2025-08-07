@@ -99,6 +99,31 @@ export const refresh = async (req: Request, res: Response) => {
   }
 };
 
+export const getUser = async (req: Request, res: Response) => {
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    res.sendStatus(401);
+    return;
+  }
+
+  const { userId } = jwt.verify(token, JWT_SECRET) as { userId: string };
+
+  if (!userId) {
+    res.sendStatus(403);
+    return;
+  }
+
+  const user = await service.getUserById(userId);
+
+  if (!user) {
+    res.sendStatus(404);
+    return;
+  }
+
+  res.status(200).json(user);
+};
+
 export const logout = async (_: Request, res: Response) => {
   res
     .clearCookie('refreshToken', { path: '/auth/refresh' })

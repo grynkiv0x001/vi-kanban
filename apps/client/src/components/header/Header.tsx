@@ -4,6 +4,7 @@ import { BluePrintIcon } from '@/assets/icons';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
+import { useGetUserQuery, useLogoutMutation } from '@/store/services/base.api';
 import { useUpdateProjectMutation } from '@/store/features/projects';
 import { setCurrentProject } from '@/store/features/projects';
 import { openModal } from '@/store/features/modal';
@@ -18,6 +19,10 @@ export const Header = () => {
   const { currentProject } = useAppSelector(state => state.project);
   const [projectName, setProjectName] = useState(currentProject?.name ?? '');
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
+  const [logout] = useLogoutMutation();
+
+  // TODO: Move up in the structure to minimize unauthorized req amount
+  const { data: user } = useGetUserQuery();
 
   useEffect(() => {
     setProjectName(currentProject?.name ?? '');
@@ -41,6 +46,11 @@ export const Header = () => {
       type: 'auth',
       instance: 'login',
     }));
+  };
+
+  // TODO: Add unauthorized view (simplified app with local storage)
+  const handleLogout = async () => {
+    await logout();
   };
 
   const openSettings = () => {
@@ -75,9 +85,15 @@ export const Header = () => {
         <Button variant="textSecondary" onClick={openSettings}>
           Settings
         </Button>
-        <Button variant="textSecondary" onClick={handleLogin}>
-          Account
-        </Button>
+        {user ? (
+          <Button variant="textSecondary" onClick={handleLogout}>
+            Logout
+          </Button>
+        ) : (
+          <Button variant="textSecondary" onClick={handleLogin}>
+            Login
+          </Button>
+        )}
       </nav>
     </header>
   );

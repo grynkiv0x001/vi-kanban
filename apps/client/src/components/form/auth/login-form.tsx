@@ -26,6 +26,7 @@ export const LoginForm = () => {
     e.preventDefault();
 
     try {
+      // TODO: Return user data and store it; call getUser query when needed
       await login({ email, password }).unwrap();
       dispatch(closeModal());
     } catch (err) {

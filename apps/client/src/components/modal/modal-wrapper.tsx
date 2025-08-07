@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { closeModal } from '@/store/features/modal';
 
-import { AuthModal, CreateModal, SettingsModal } from '@/components/modal/types';
+import { AuthModal, CreateModal, EditModal, SettingsModal } from '@/components/modal/types';
 
 import { wrapper } from './modal-wrapper.styles';
 
@@ -35,6 +35,8 @@ export const ModalWrapper = () => {
       return (
         <CreateModal />
       );
+    case 'edit':
+      return <EditModal />;
     case 'auth':
       return (
         <AuthModal />
