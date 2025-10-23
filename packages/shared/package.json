@@ -1,5 +1,6 @@
 {
   "name": "shared",
+  "private": true,
   "packageManager": "yarn@4.9.2",
   "main": "src/types.ts",
   "types": "src/types.ts",

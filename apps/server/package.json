@@ -1,5 +1,6 @@
 {
   "name": "server",
+  "private": true,
   "packageManager": "yarn@4.9.2",
   "scripts": {
     "dev": "tsx watch src/index.ts",
