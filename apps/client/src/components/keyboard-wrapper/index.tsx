@@ -2,7 +2,14 @@ import { type ReactNode, useCallback, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import { setDevice, setViMode, setCaretPosition, type ViElement } from '@/store/features/vi';
+import {
+  setDevice,
+  setViMode,
+  setCaretPosition,
+  toggleLeaderKeyMode,
+  type ViElement,
+} from '@/store/features/vi';
+import { openModal } from '@/store/features/modal';
 
 export const Directions = {
   H: 'h',
@@ -12,6 +19,8 @@ export const Directions = {
 } as const;
 
 export type Direction = typeof Directions[keyof typeof Directions];
+
+export const LEADER_KEY = ' ';
 
 // TODO: add more functionality ('$' and '0', amount, 'G' and 'gg' etc.)
 const moveCaret = (
@@ -44,7 +53,9 @@ const moveCaret = (
   const targetRow = viElements[row];
   const clampedCol = Math.min(col, targetRow.length - 1);
 
-  if (clampedCol < 0) return null;
+  if (clampedCol < 0) {
+    return null;
+  }
 
   const element = targetRow[clampedCol];
 
@@ -57,7 +68,14 @@ const moveCaret = (
 
 export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
-  const { mode, caretPosition, viElements, enabled } = useAppSelector(state => state.vi);
+  const {
+    mode,
+    caretPosition,
+    viElements,
+    enabled,
+    leaderKeyPressed,
+  } = useAppSelector(state => state.vi);
+  const { currentProject } = useAppSelector(state => state.project);
 
   const move = useCallback((direction: Direction) => {
     if (mode === 'insert' || mode === 'command') {
@@ -99,14 +117,41 @@ export const KeyboardWrapper = ({ children }: { children: ReactNode }) => {
       'j': () => move(Directions.J),
       'k': () => move(Directions.K),
       'l': () => move(Directions.L),
+      [LEADER_KEY]: () => {
+        if (mode === 'insert') {
+          return;
+        }
+
+        dispatch(toggleLeaderKeyMode());
+
+        setTimeout(() => {
+          dispatch(toggleLeaderKeyMode());
+        }, 200);
+      },
+    };
+
+    const leaderKeyActions: Record<string, () => void> = {
+      'n': () => {
+        if (!currentProject) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          dispatch(openModal({ type: 'create', instance: 'project' }));
+        }
+      },
     };
 
     const action = actions[e.key];
+    const leaderKeyAction = leaderKeyPressed ? leaderKeyActions[e.key] : undefined;
 
     if (action) {
       action();
     }
-  }, [dispatch, move, mode]);
+
+    if (leaderKeyAction) {
+      leaderKeyAction();
+    }
+  }, [dispatch, move, mode, leaderKeyPressed, currentProject]);
 
 
   useEffect(() => {

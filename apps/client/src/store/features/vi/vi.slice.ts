@@ -18,6 +18,7 @@ interface IViState {
     elementId?: string;
   };
   viElements: ViElement[][];
+  leaderKeyPressed: boolean
 }
 
 const viEnabled = localStorage.getItem('vi-enabled');
@@ -31,6 +32,7 @@ const initialState: IViState = {
     col: 0,
   },
   viElements: [],
+  leaderKeyPressed: false,
 };
 
 const groupIntoGrid = (elements: ViElement[], tolerance = 10): ViElement[][] => {
@@ -64,6 +66,9 @@ const viSlice = createSlice({
     toggleVi(state, action: PayloadAction<boolean>) {
       state.enabled = action.payload;
     },
+    toggleLeaderKeyMode(state) {
+      state.leaderKeyPressed = !state.leaderKeyPressed;
+    },
     setDevice(state, action: PayloadAction<IViState['device']>) {
       state.device = action.payload;
     },
@@ -79,6 +84,6 @@ const viSlice = createSlice({
   },
 });
 
-export const { toggleVi, setDevice, setViMode, setCaretPosition, setViElements } = viSlice.actions;
+export const { toggleVi, toggleLeaderKeyMode, setDevice, setViMode, setCaretPosition, setViElements } = viSlice.actions;
 
 export default viSlice.reducer;

@@ -18,9 +18,16 @@ export const Button = ({ children, styles, variant = 'primary', ...rest }: Butto
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    if (mode === 'insert') {
-      if (buttonRef.current?.dataset.viId === caretPosition.elementId && device === 'keyboard') {
-        buttonRef.current?.click();
+    if (mode === 'insert' && device === 'keyboard') {
+      const button = buttonRef.current;
+      const dialog = button?.closest('dialog');
+
+      if (dialog?.open) {
+        return;
+      }
+
+      if (button && button?.dataset.viId === caretPosition.elementId) {
+        button.click();
         dispatch(setViMode('normal'));
       }
     }
