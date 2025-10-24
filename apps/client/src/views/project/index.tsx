@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { useGetProjectListsQuery } from '@/store/features/lists';
 import { setProjectTasks, useGetListTasksQuery } from '@/store/features/tasks';
+import { setProjectLists } from '@/store/features/lists';
 import { openModal } from '@/store/features/modal';
 
 import { List } from '@/views/list';
@@ -32,6 +33,12 @@ export const ProjectView = () => {
       dispatch(setProjectTasks(tasks));
     }
   }, [dispatch, tasks, tasksLoading]);
+
+  useEffect(() => {
+    if (lists && !listsLoading) {
+      dispatch(setProjectLists(lists));
+    }
+  }, [dispatch, lists, listsLoading]);
 
   const handleListCreation = async () => {
     dispatch(openModal({

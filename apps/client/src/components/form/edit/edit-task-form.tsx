@@ -7,6 +7,7 @@ import { closeModal } from '@/store/features/modal';
 import { useUpdateTaskMutation } from '@/store/features/tasks';
 
 import { Input } from '@/components/input';
+import { Select } from '@/components/select';
 import { TextArea } from '@/components/textarea';
 
 import * as styles from './edit-form.styles';
@@ -14,12 +15,14 @@ import * as styles from './edit-form.styles';
 export const EditTaskForm = () => {
   const dispatch = useAppDispatch();
   const { formId, data } = useAppSelector(state => state.modal);
+  const { projectLists } = useAppSelector(state => state.lists);
 
   const [updateTask, { isLoading, isSuccess }] = useUpdateTaskMutation();
 
   const [name, setName] = useState<string>(data?.name || '');
   const [description, setDescription] = useState<string>(data?.description || '');
   const [position, setPosition] = useState<number | null>(data?.position || null);
+  const [listId, setListId] = useState<number>(data?.listId || 0);
   const [showPreview, setShowPreview] = useState(data?.description || false);
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export const EditTaskForm = () => {
       name,
       description,
       position,
+      listId,
     });
   };
 
@@ -81,6 +85,16 @@ export const EditTaskForm = () => {
         onChange={(e) => setPosition(Number(e.target.value))}
         disabled={isLoading}
         value={position || 0}
+      />
+      <Select
+        value={String(listId)}
+        onChange={(value) => setListId(Number.parseInt(value))}
+        options={
+          projectLists?.map((item) => ({
+            value: String(item.id),
+            label: item.name,
+          }))
+        }
       />
     </form>
   );

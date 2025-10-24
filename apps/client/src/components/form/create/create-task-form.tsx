@@ -7,6 +7,7 @@ import { closeModal } from '@/store/features/modal';
 import { useCreateTaskMutation } from '@/store/features/tasks';
 
 import { Input } from '@/components/input';
+import { Select } from '@/components/select';
 import { TextArea } from '@/components/textarea';
 
 import * as styles from './create-form.styles';
@@ -15,17 +16,19 @@ export const CreateTaskForm = () => {
   const dispatch = useAppDispatch();
   const { formId, ids } = useAppSelector(state => state.modal);
   const { currentProject } = useAppSelector(state => state.project);
+  const { projectLists } = useAppSelector(state => state.lists);
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [listId, setListId] = useState<number>(ids?.listId || 0);
   const [position, setPosition] = useState<number | null>(null);
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!currentProject || !currentProject.id || !ids || !ids.listId) {
+    if (!currentProject || !currentProject.id) {
       return;
     }
 
@@ -35,7 +38,7 @@ export const CreateTaskForm = () => {
         position,
         description,
         projectId: currentProject.id,
-        listId: ids.listId,
+        listId,
       }).unwrap();
       dispatch(closeModal());
     } catch (err) {
@@ -79,6 +82,16 @@ export const CreateTaskForm = () => {
         placeholder="Position"
         onChange={(e) => setPosition(Number(e.target.value))}
         disabled={isLoading}
+      />
+      <Select
+        value={String(listId)}
+        onChange={(value) => setListId(Number.parseInt(value))}
+        options={
+          projectLists?.map((item) => ({
+            value: String(item.id),
+            label: item.name,
+          }))
+        }
       />
     </form>
   );
