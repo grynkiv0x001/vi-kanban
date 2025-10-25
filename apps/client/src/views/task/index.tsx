@@ -47,8 +47,17 @@ export const Task = (task: TaskPropType) => {
     removeTask({ id, projectId, listId });
   };
 
+  const handleTaskDrag = (e: React.DragEvent<HTMLElement>) => {
+    // TODO: Optimize
+    e.dataTransfer.setData('application/json', JSON.stringify(task));
+  };
+
   return (
-    <dd css={styles.task}>
+    <dd
+      draggable
+      css={styles.task}
+      onDragStart={handleTaskDrag}
+    >
       <Input
         type="text"
         value={taskName}

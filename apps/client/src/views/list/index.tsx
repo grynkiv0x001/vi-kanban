@@ -7,7 +7,7 @@ import { TrashIcon } from '@/assets/icons';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { openModal } from '@/store/features/modal';
-import { selectTasksByListId } from '@/store/features/tasks';
+import { selectTasksByListId, useUpdateTaskMutation } from '@/store/features/tasks';
 import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/lists';
 
 import { Task } from '@/views/task';
@@ -20,6 +20,7 @@ import * as styles from './list.styles';
 export const List = (list: ListPropType) => {
   const { id, projectId, name } = list;
 
+  const [updateTask] = useUpdateTaskMutation();
   const [removeList, { isLoading }] = useDeleteListMutation();
   const [updateList, { isLoading: updating }] = useUpdateListMutation();
 
@@ -45,10 +46,10 @@ export const List = (list: ListPropType) => {
   };
 
   const handleListRemoval = async () => {
-    removeList({ id, projectId });
+    await removeList({ id, projectId });
   };
 
-  const handleTaskCreation = async () => {
+  const handleTaskCreation = () => {
     dispatch(openModal({
       type: 'create',
       instance: 'task',
@@ -58,8 +59,18 @@ export const List = (list: ListPropType) => {
     }));
   };
 
+  const handleTaskDrop = async (e: React.DragEvent<HTMLElement>) => {
+    const data = e.dataTransfer.getData('application/json');
+
+    await updateTask({ ...JSON.parse(data), listId: id });
+  };
+
   return (
-    <dl css={styles.list}>
+    <dl
+      css={styles.list}
+      onDrop={handleTaskDrop}
+      onDragOver={(e) => e.preventDefault()}
+    >
       <dt css={styles.head}>
         <Input
           required
