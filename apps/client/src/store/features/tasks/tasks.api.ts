@@ -36,6 +36,14 @@ const tasksApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Tasks'],
     }),
+    reorderTasks: build.mutation<void, { projectId: number; listId: number; taskIds: number[] }>({
+      query: ({ projectId, listId, taskIds }) => ({
+        url: `projects/${projectId}/reorder/tasks`,
+        method: 'POST',
+        body: { listId, taskIds },
+      }),
+      invalidatesTags: ['Tasks'],
+    }),
   }),
 });
 
@@ -44,4 +52,5 @@ export const {
   useCreateTaskMutation,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
+  useReorderTasksMutation,
 } = tasksApi;

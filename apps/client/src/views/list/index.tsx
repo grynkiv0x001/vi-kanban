@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 import type { List as ListPropType } from 'shared/src/types';
 
@@ -7,7 +9,7 @@ import { TrashIcon } from '@/assets/icons';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { openModal } from '@/store/features/modal';
-import { selectTasksByListId, useUpdateTaskMutation } from '@/store/features/tasks';
+import { selectTasksByListId } from '@/store/features/tasks';
 import { useDeleteListMutation, useUpdateListMutation } from '@/store/features/lists';
 
 import { Task } from '@/views/task';
@@ -20,7 +22,6 @@ import * as styles from './list.styles';
 export const List = (list: ListPropType) => {
   const { id, projectId, name } = list;
 
-  const [updateTask] = useUpdateTaskMutation();
   const [removeList, { isLoading }] = useDeleteListMutation();
   const [updateList, { isLoading: updating }] = useUpdateListMutation();
 
@@ -28,6 +29,27 @@ export const List = (list: ListPropType) => {
   const tasks = useAppSelector(state => selectTasksByListId(state, id));
 
   const [listName, setListName] = useState<string>(name);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id,
+    data: {
+      type: 'List',
+      list,
+    },
+  });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.8 : 1,
+  };
 
   useEffect(() => {
     setListName(name);
@@ -59,17 +81,15 @@ export const List = (list: ListPropType) => {
     }));
   };
 
-  const handleTaskDrop = async (e: React.DragEvent<HTMLElement>) => {
-    const data = e.dataTransfer.getData('application/json');
-
-    await updateTask({ ...JSON.parse(data), listId: id });
-  };
+  const taskIds = useMemo(() => tasks?.map(t => t.id) ?? [], [tasks]);
 
   return (
     <dl
+      ref={setNodeRef}
+      style={style}
       css={styles.list}
-      onDrop={handleTaskDrop}
-      onDragOver={(e) => e.preventDefault()}
+      {...attributes}
+      {...listeners}
     >
       <dt css={styles.head}>
         <Input
@@ -82,13 +102,15 @@ export const List = (list: ListPropType) => {
           css={styles.name}
           variant="secondary"
         />
-        <button css={styles.removeListBtn} onClick={handleListRemoval} disabled={isLoading}>
+        <button css={styles.removeListBtn} onClick={handleListRemoval} disabled={isLoading} onPointerDown={(e) => e.stopPropagation()}>
           <TrashIcon width={16} height={16} />
         </button>
       </dt>
-      {tasks?.map((task) => (
-        <Task key={task.id} {...task} />
-      ))}
+      <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
+        {tasks?.map((task) => (
+          <Task key={task.id} {...task} />
+        ))}
+      </SortableContext>
       <dd css={styles.createTaskBtn}>
         <Button onClick={handleTaskCreation} variant="secondary">
           + Add task

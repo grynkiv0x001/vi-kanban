@@ -50,6 +50,7 @@ import { getAllTasks } from '@/controllers/tasks.controller';
 import { authenticateToken } from '@/controllers/middlewares/auth.middleware';
 
 import listsRouter from './lists.routes';
+import reorderRouter from './reorder.routes';
 
 const router = Router();
 
@@ -64,5 +65,6 @@ router.delete('/:id', controller.deleteProject);
 router.get('/:id/tasks', getAllTasks);
 
 router.use('/:projectId/lists', listsRouter);
+router.use('/:projectId/reorder', reorderRouter);
 
 export default router;

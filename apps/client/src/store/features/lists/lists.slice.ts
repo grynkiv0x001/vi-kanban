@@ -15,9 +15,12 @@ const listsSlice = createSlice({
     setProjectLists: (state, action: PayloadAction<List[]>) => {
       state.projectLists = action.payload;
     },
+    reorderLists: (state, action: PayloadAction<List[]>) => {
+      state.projectLists = action.payload;
+    },
   },
 });
 
-export const { setProjectLists } = listsSlice.actions;
+export const { setProjectLists, reorderLists } = listsSlice.actions;
 
 export default listsSlice.reducer;
