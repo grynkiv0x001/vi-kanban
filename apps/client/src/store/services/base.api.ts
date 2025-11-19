@@ -5,6 +5,11 @@ interface ILoginInput {
   password: string;
 }
 
+interface IUserResponse {
+  id: string;
+  email: string;
+}
+
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL,
   credentials: 'include',
@@ -61,6 +66,13 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ['Projects'],
     }),
+    getUser: build.query<IUserResponse, void>({
+      query: () => ({
+        url: 'auth/me',
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: 'auth/logout',
@@ -75,4 +87,5 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
+  useGetUserQuery,
 } = baseApi;

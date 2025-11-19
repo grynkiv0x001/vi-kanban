@@ -4,6 +4,7 @@ import { baseApi } from '@/store/services/base.api';
 
 import {
   appSettingsReducer,
+  listsReducer,
   modalReducer,
   projectsReducer,
   tasksReducer,
@@ -18,6 +19,7 @@ export const store = configureStore({
     modal: modalReducer,
     project: projectsReducer,
     tasks: tasksReducer,
+    lists: listsReducer,
     vi: viReducer,
   },
   middleware: (getDefaultMiddleware) => {

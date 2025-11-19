@@ -1,7 +1,7 @@
 {
   "name": "vi-kanban",
-  "private": "true",
-  "packageManager": "yarn@4.9.2",
+  "private": true,
+  "packageManager": "yarn@4.10.3",
   "workspaces": [
     "apps/*",
     "packages/*"

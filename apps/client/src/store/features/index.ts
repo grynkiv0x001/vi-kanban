@@ -1,4 +1,5 @@
 export { default as appSettingsReducer } from './app-settings';
+export { default as listsReducer } from './lists';
 export { default as modalReducer } from './modal';
 export { default as projectsReducer } from './projects';
 export { default as tasksReducer } from './tasks';

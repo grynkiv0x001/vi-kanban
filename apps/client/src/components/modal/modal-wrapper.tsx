@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/hooks';
-
 import { closeModal } from '@/store/features/modal';
 
-import { AuthModal, CreateModal, SettingsModal } from '@/components/modal/types';
+import { AuthModal, CreateModal, EditModal, SettingsModal } from '@/components/modal/types';
 
 import { wrapper } from './modal-wrapper.styles';
 
@@ -32,13 +31,11 @@ export const ModalWrapper = () => {
   const renderModal = () => {
     switch (type) {
     case 'create':
-      return (
-        <CreateModal />
-      );
+      return <CreateModal />;
+    case 'edit':
+      return <EditModal />;
     case 'auth':
-      return (
-        <AuthModal />
-      );
+      return <AuthModal />;
     case 'settings':
       return <SettingsModal />;
     }
@@ -47,7 +44,10 @@ export const ModalWrapper = () => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const dialog = dialogRef.current;
-      if (!dialog || !dialog.open) return;
+
+      if (!dialog || !dialog.open) {
+        return;
+      }
 
       const rect = dialog.getBoundingClientRect();
       const clickInside =
@@ -64,6 +64,7 @@ export const ModalWrapper = () => {
     if (isOpen) {
       window.addEventListener('mousedown', handleClickOutside);
     }
+
     return () => {
       window.removeEventListener('mousedown', handleClickOutside);
     };

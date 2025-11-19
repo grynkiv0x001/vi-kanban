@@ -19,9 +19,12 @@ const tasksSlice = createSlice({
     setProjectTasks: (state, action: PayloadAction<Task[]>) => {
       state.projectTasks = action.payload;
     },
+    reorderTasks: (state, action: PayloadAction<Task[]>) => {
+      state.projectTasks = action.payload;
+    },
   },
 });
 
-export const { setCurrentTask, setProjectTasks } = tasksSlice.actions;
+export const { setCurrentTask, setProjectTasks, reorderTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

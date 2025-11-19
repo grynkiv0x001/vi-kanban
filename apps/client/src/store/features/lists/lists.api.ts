@@ -30,6 +30,14 @@ export const listsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Lists'],
     }),
+    reorderLists: build.mutation<void, { projectId: number; listIds: number[] }>({
+      query: ({ projectId, listIds }) => ({
+        url: `projects/${projectId}/reorder/lists`,
+        method: 'POST',
+        body: { listIds },
+      }),
+      invalidatesTags: ['Lists'],
+    }),
   }),
 });
 
@@ -38,4 +46,5 @@ export const {
   useCreateListMutation,
   useUpdateListMutation,
   useDeleteListMutation,
+  useReorderListsMutation,
 } = listsApi;
