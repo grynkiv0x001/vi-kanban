@@ -53,7 +53,7 @@ export const ProjectView = () => {
   const { projectLists } = useAppSelector(state => state.lists);
   const { projectTasks } = useAppSelector(state => state.tasks);
 
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<'list' | 'task' | null>(null);
   const [activeItem, setActiveItem] = useState<ListType | TaskType | null>(null);
 
@@ -103,25 +103,19 @@ export const ProjectView = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-    const id = active.id as number;
+    const id = active.id as string;
 
     setActiveId(id);
 
-    const task = projectTasks?.find(projectTask => projectTask.id === id);
-
-    if (task) {
+    if (active.data.current?.type === 'Task') {
       setActiveType('task');
-      setActiveItem(task);
-
+      setActiveItem(active.data.current.task);
       return;
     }
 
-    const list = projectLists?.find(projectList => projectList.id === id);
-
-    if (list) {
+    if (active.data.current?.type === 'List') {
       setActiveType('list');
-      setActiveItem(list);
-
+      setActiveItem(active.data.current.list);
       return;
     }
   };
@@ -133,8 +127,8 @@ export const ProjectView = () => {
       return;
     }
 
-    const activeId = active.id;
-    const overId = over.id;
+    const activeId = active.id as string;
+    const overId = over.id as string;
 
     if (activeId === overId) {
       return;
@@ -148,17 +142,21 @@ export const ProjectView = () => {
       return;
     }
 
+    // Parse IDs back to numbers for Redux/API
+    const activeTaskId = Number(activeId.replace('task-', ''));
+
     if (isActiveTask && isOverTask) {
-      const activeIndex = projectTasks?.findIndex(projectTask => projectTask.id === activeId);
-      const overIndex = projectTasks?.findIndex(projectTask => projectTask.id === overId);
+      const overTaskId = Number(overId.replace('task-', ''));
+      const activeIndex = projectTasks?.findIndex(projectTask => projectTask.id === activeTaskId);
+      const overIndex = projectTasks?.findIndex(projectTask => projectTask.id === overTaskId);
 
       if (activeIndex !== undefined && overIndex !== undefined && activeIndex !== -1 && overIndex !== -1 && projectTasks) {
         if (projectTasks[activeIndex].listId !== projectTasks[overIndex].listId) {
-          const updatedTasks = [...projectTasks];
 
+          const updatedTasks = [...projectTasks];
           updatedTasks[activeIndex] = {
             ...updatedTasks[activeIndex],
-            listId: projectTasks[overIndex].listId
+            listId: projectTasks[overIndex].listId,
           };
 
           dispatch(reorderTasks(arrayMove(updatedTasks, activeIndex, overIndex)));
@@ -169,15 +167,16 @@ export const ProjectView = () => {
     }
 
     if (isActiveTask && isOverList) {
-      const activeIndex = projectTasks?.findIndex(projectTask => projectTask.id === activeId);
+      const overListId = Number(overId.replace('list-', ''));
+      const activeIndex = projectTasks?.findIndex(projectTask => projectTask.id === activeTaskId);
 
       if (activeIndex !== undefined && activeIndex !== -1 && projectTasks) {
-        if (projectTasks[activeIndex].listId !== overId) {
+        if (projectTasks[activeIndex].listId !== overListId) {
           const updatedTasks = [...projectTasks];
 
           updatedTasks[activeIndex] = {
             ...updatedTasks[activeIndex],
-            listId: overId as number,
+            listId: overListId,
           };
 
           dispatch(reorderTasks(updatedTasks));
@@ -197,13 +196,16 @@ export const ProjectView = () => {
       return;
     }
 
-    const activeId = active.id as number;
-    const overId = over.id as number;
+    const activeId = active.id as string;
+    const overId = over.id as string;
 
     if (active.data.current?.type === 'List') {
       if (activeId !== overId) {
-        const oldIndex = projectLists?.findIndex(projectList => projectList.id === activeId);
-        const newIndex = projectLists?.findIndex(projectList => projectList.id === overId);
+        const activeListId = Number(activeId.replace('list-', ''));
+        const overListId = Number(overId.replace('list-', ''));
+
+        const oldIndex = projectLists?.findIndex(projectList => projectList.id === activeListId);
+        const newIndex = projectLists?.findIndex(projectList => projectList.id === overListId);
 
         if (oldIndex !== undefined && newIndex !== undefined && oldIndex !== -1 && newIndex !== -1 && projectLists && currentProject) {
           const newLists = arrayMove(projectLists, oldIndex, newIndex);
@@ -213,7 +215,8 @@ export const ProjectView = () => {
         }
       }
     } else if (active.data.current?.type === 'Task') {
-      const task = projectTasks?.find(projectTask => projectTask.id === activeId);
+      const activeTaskId = Number(activeId.replace('task-', ''));
+      const task = projectTasks?.find(projectTask => projectTask.id === activeTaskId);
 
       if (task && currentProject) {
         const listId = task.listId;
@@ -223,7 +226,7 @@ export const ProjectView = () => {
           reorderTasksApi({
             listId,
             projectId: currentProject.id,
-            taskIds: tasksInList
+            taskIds: tasksInList,
           });
         }
       }
@@ -246,11 +249,11 @@ export const ProjectView = () => {
     >
       <section css={styles.project}>
         <SortableContext
-          items={projectLists?.map(l => l.id) ?? []}
+          items={projectLists?.map(l => `list-${l.id}`) ?? []}
           strategy={horizontalListSortingStrategy}
         >
           {projectLists?.map((list) => (
-            <List key={list.id} {...list} />
+            <List key={list.id} {...list} isListDragging={activeType === 'list'} />
           ))}
         </SortableContext>
 

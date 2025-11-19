@@ -33,7 +33,7 @@ export const Task = (task: TaskPropType) => {
     transition,
     isDragging,
   } = useSortable({
-    id,
+    id: `task-${id}`,
     data: {
       type: 'Task',
       task,

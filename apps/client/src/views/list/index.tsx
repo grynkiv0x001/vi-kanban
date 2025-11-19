@@ -19,7 +19,7 @@ import { Input } from '@/components/input';
 
 import * as styles from './list.styles';
 
-export const List = (list: ListPropType) => {
+export const List = ({ isListDragging, ...list }: ListPropType & { isListDragging?: boolean }) => {
   const { id, projectId, name } = list;
 
   const [removeList, { isLoading }] = useDeleteListMutation();
@@ -38,7 +38,7 @@ export const List = (list: ListPropType) => {
     transition,
     isDragging,
   } = useSortable({
-    id,
+    id: `list-${id}`,
     data: {
       type: 'List',
       list,
@@ -81,7 +81,13 @@ export const List = (list: ListPropType) => {
     }));
   };
 
-  const taskIds = useMemo(() => tasks?.map(t => t.id) ?? [], [tasks]);
+  const taskIds = useMemo(() => {
+    if (isListDragging) {
+      return [];
+    }
+
+    return tasks?.map(t => `task-${t.id}`) ?? [];
+  }, [tasks, isListDragging]);
 
   return (
     <dl
@@ -107,7 +113,7 @@ export const List = (list: ListPropType) => {
         </button>
       </dt>
       <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
-        {tasks?.map((task) => (
+        {!isListDragging && tasks?.map((task) => (
           <Task key={task.id} {...task} />
         ))}
       </SortableContext>
