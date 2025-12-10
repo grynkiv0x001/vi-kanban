@@ -4,6 +4,8 @@ export const list = (theme: Theme) => css`
   margin: 0;
   flex-basis: 300px;
   flex-shrink: 0;
+  flex-grow: 0;
+  overflow: hidden;
   background-color: transparent;
   border: 2px solid ${theme.colors.secondary};
 `;

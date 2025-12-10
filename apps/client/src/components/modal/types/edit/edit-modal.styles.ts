@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, type Theme } from '@emotion/react';
 
 export const modal = css`
   display: flex;
@@ -9,5 +9,15 @@ export const modal = css`
 export const footer = css`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+export const deleteButton = (theme: Theme) => css`
+  background-color: ${theme.colors.danger};
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: ${theme.colors.danger};
+    opacity: 0.9;
+  }
 `;

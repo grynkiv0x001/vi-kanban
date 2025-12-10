@@ -1,4 +1,4 @@
-import { css, type Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 
 export const task = css`
   margin: 0;
@@ -6,14 +6,10 @@ export const task = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 
-  span {
-    width: 100%;
-    outline: none;
-  }
-
-  &:hover button {
-    opacity: 1;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
   }
 `;
 
@@ -24,21 +20,10 @@ export const name = css`
   background-color: transparent;
 `;
 
-export const actionBtn = css`
-  background-color: transparent;
-  border: none;
-  opacity: 0;
-  cursor: pointer;
-`;
-
-export const editBtn = (theme: Theme) => css`
-  svg {
-    fill: ${theme.colors.tertiary};
-  }
-`;
-
-export const deleteBtn = (theme: Theme) => css`
-  svg {
-    fill: ${theme.colors.danger};
-  }
+export const nameDisplay = css`
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

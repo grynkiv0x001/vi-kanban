@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 import { type Task as TaskPropType } from 'shared/src/types';
 
-import { DeleteIcon, PenFieldIcon } from '@/assets/icons';
-
 import { useAppDispatch } from '@/hooks';
 
 import { openModal } from '@/store/features/modal';
-import { useDeleteTaskMutation, useUpdateTaskMutation } from '@/store/features/tasks';
+import { useUpdateTaskMutation } from '@/store/features/tasks';
 
 import { Input } from '@/components/input';
 
 import * as styles from './task.styles';
 
 export const Task = (task: TaskPropType) => {
-  const { name, id, projectId, listId } = task;
+  const { name, id } = task;
 
   const dispatch = useAppDispatch();
 
   const [updateTask] = useUpdateTaskMutation();
-  const [removeTask, { isLoading: updating }] = useDeleteTaskMutation();
 
   const [taskName, setTaskName] = useState<string>(name);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const {
     attributes,
@@ -50,7 +50,28 @@ export const Task = (task: TaskPropType) => {
     setTaskName(name);
   }, [name]);
 
+  useEffect(() => {
+    if (isEditing && inputContainerRef.current) {
+      const input = inputContainerRef.current.querySelector('input');
+
+      if (input) {
+        input.focus();
+        input.select();
+      }
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    return () => {
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleBlur = async () => {
+    setIsEditing(false);
+
     if (taskName === name) {
       return;
     }
@@ -59,15 +80,45 @@ export const Task = (task: TaskPropType) => {
       await updateTask({ ...task, name: taskName }).unwrap();
     } catch (error) {
       console.error('Failed to rename task:', error);
+      setTaskName(name);
     }
   };
 
-  const editTask = () => {
-    dispatch(openModal({ instance: 'task', type: 'edit', data: task }));
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      (e.currentTarget as HTMLInputElement).blur();
+    } else if (e.key === 'Escape') {
+      setTaskName(name);
+      setIsEditing(false);
+    }
   };
 
-  const handleTaskRemoval = async () => {
-    removeTask({ id, projectId, listId });
+  const handleClick = () => {
+    if (isEditing) {
+      return;
+    }
+
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    clickTimeoutRef.current = setTimeout(() => {
+      dispatch(openModal({ instance: 'task', type: 'edit', data: task }));
+      clickTimeoutRef.current = null;
+    }, 150);
+  };
+
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+      clickTimeoutRef.current = null;
+    }
+
+    if (!isEditing) {
+      setIsEditing(true);
+    }
   };
 
   return (
@@ -76,23 +127,29 @@ export const Task = (task: TaskPropType) => {
       style={style}
       css={styles.task}
       {...attributes}
-      {...listeners}
+      {...(!isEditing ? listeners : {})}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
     >
-      <Input
-        type="text"
-        value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
-        onBlur={handleBlur}
-        disabled={updating}
-        css={styles.name}
-        variant="secondary"
-      />
-      <button css={[styles.actionBtn, styles.editBtn]} onClick={editTask} onPointerDown={(e) => e.stopPropagation()}>
-        <PenFieldIcon width={16} height={16} />
-      </button>
-      <button css={[styles.actionBtn, styles.deleteBtn]} onClick={handleTaskRemoval} onPointerDown={(e) => e.stopPropagation()}>
-        <DeleteIcon width={16} height={16} />
-      </button>
+      {isEditing ? (
+        <div 
+          ref={inputContainerRef} 
+          onPointerDown={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <Input
+            type="text"
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            css={styles.name}
+            variant="secondary"
+          />
+        </div>
+      ) : (
+        <span css={styles.nameDisplay}>{name}</span>
+      )}
     </dd>
   );
 };

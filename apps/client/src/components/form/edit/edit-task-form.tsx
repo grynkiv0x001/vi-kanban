@@ -23,7 +23,13 @@ export const EditTaskForm = () => {
   const [description, setDescription] = useState<string>(data?.description || '');
   const [position, setPosition] = useState<number | null>(data?.position || null);
   const [listId, setListId] = useState<number>(data?.listId || 0);
-  const [showPreview, setShowPreview] = useState(data?.description || false);
+  const [showPreview, setShowPreview] = useState(false);
+
+  useEffect(() => {
+    if (data?.description) {
+      setShowPreview(false);
+    }
+  }, [data?.description]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -72,7 +78,11 @@ export const EditTaskForm = () => {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          onBlur={() => setShowPreview(true)}
+          onBlur={() => {
+            if (description.trim()) {
+              setShowPreview(true);
+            }
+          }}
           disabled={isLoading}
           styles={styles.description}
           autoFocus
