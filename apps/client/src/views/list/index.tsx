@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -29,6 +29,8 @@ export const List = ({ isListDragging, ...list }: ListPropType & { isListDraggin
   const tasks = useAppSelector(state => selectTasksByListId(state, id));
 
   const [listName, setListName] = useState<string>(name);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
 
   const {
     attributes,
@@ -56,6 +58,8 @@ export const List = ({ isListDragging, ...list }: ListPropType & { isListDraggin
   }, [name]);
 
   const handleBlur = async () => {
+    setIsEditing(false);
+
     if (listName === name) {
       return;
     }
@@ -64,6 +68,16 @@ export const List = ({ isListDragging, ...list }: ListPropType & { isListDraggin
       await updateList({ ...list, name: listName }).unwrap();
     } catch (error) {
       console.error('Failed to rename list:', error);
+      setListName(name);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      (e.currentTarget as HTMLInputElement).blur();
+    } else if (e.key === 'Escape') {
+      setListName(name);
+      setIsEditing(false);
     }
   };
 
@@ -95,19 +109,33 @@ export const List = ({ isListDragging, ...list }: ListPropType & { isListDraggin
       style={style}
       css={styles.list}
       {...attributes}
-      {...listeners}
+      {...(!isEditing ? listeners : {})}
     >
       <dt css={styles.head}>
-        <Input
-          required
-          type="text"
-          value={listName}
-          onChange={(e) => setListName(e.target.value)}
-          onBlur={handleBlur}
-          disabled={updating}
-          css={styles.name}
-          variant="secondary"
-        />
+        {isEditing ? (
+          <div 
+            ref={inputContainerRef} 
+            onPointerDown={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
+            <Input
+              required
+              type="text"
+              value={listName}
+              onChange={(e) => setListName(e.target.value)}
+              onBlur={handleBlur}
+              onKeyDown={handleKeyDown}
+              disabled={updating}
+              css={styles.name}
+              variant="secondary"
+            />
+          </div>
+        ) : (
+          <span css={styles.name} onDoubleClick={() => setIsEditing(true)}>
+            {listName}
+          </span>
+        )}
+        
         <button css={styles.removeListBtn} onClick={handleListRemoval} disabled={isLoading} onPointerDown={(e) => e.stopPropagation()}>
           <TrashIcon width={16} height={16} />
         </button>

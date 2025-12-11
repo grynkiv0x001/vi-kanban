@@ -56,4 +56,9 @@ export const name = (theme: Theme) => css`
   width: 100%;
   color: ${theme.colors.primary};
   text-overflow: ellipsis;
+  cursor: pointer;
+
+  &:is(input) {
+    cursor: text;
+  }
 `;
