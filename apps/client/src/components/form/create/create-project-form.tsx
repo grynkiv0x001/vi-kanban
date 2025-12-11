@@ -7,6 +7,8 @@ import { useCreateProjectMutation } from '@/store/features/projects';
 
 import { Input } from '@/components/input';
 
+import { form } from './create-form.styles';
+
 export const CreateProjectForm = () => {
   const dispatch = useAppDispatch();
   const { formId } = useAppSelector(state => state.modal);
@@ -26,7 +28,7 @@ export const CreateProjectForm = () => {
   };
 
   return (
-    <form id={formId} onSubmit={handleSubmit}>
+    <form id={formId} onSubmit={handleSubmit} css={form}>
       <Input
         type="text"
         name="name"

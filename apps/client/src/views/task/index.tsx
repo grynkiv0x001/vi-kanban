@@ -148,7 +148,9 @@ export const Task = (task: TaskPropType) => {
           />
         </div>
       ) : (
-        <span css={styles.nameDisplay}>{name}</span>
+        <span data-vi="on" css={styles.nameDisplay}>
+          {name}
+        </span>
       )}
     </dd>
   );

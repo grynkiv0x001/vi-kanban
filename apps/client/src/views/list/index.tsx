@@ -131,7 +131,11 @@ export const List = ({ isListDragging, ...list }: ListPropType & { isListDraggin
             />
           </div>
         ) : (
-          <span css={styles.name} onDoubleClick={() => setIsEditing(true)}>
+          <span
+            data-vi="on"
+            css={styles.name}
+            onDoubleClick={() => setIsEditing(true)}
+          >
             {listName}
           </span>
         )}
