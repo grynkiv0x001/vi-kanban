@@ -24,8 +24,29 @@ export const getTasksByListIds = (listIds: number[]) =>
 export const getTaskById = (id: number) =>
   prisma.task.findUnique({ where: { id } });
 
-export const createTask = (data: CreateTaskInput) =>
-  prisma.task.create({ data });
+export const createTask = async (data: CreateTaskInput) => {
+  // If position is not provided, set it to the end of the list
+  if (data.position === null || data.position === undefined) {
+    const tasksInList = await prisma.task.findMany({
+      where: {
+        listId: data.listId,
+        projectId: data.projectId,
+      },
+      orderBy: {
+        position: 'desc',
+      },
+      take: 1,
+      select: {
+        position: true,
+      },
+    });
+
+    const maxPosition = tasksInList[0]?.position ?? -1;
+    data.position = maxPosition + 1;
+  }
+
+  return prisma.task.create({ data });
+};
 
 export const updateTask = (data: UpdateTaskInput) =>
   prisma.task.update({ where: { id: data.id }, data });

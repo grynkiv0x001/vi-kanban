@@ -4,6 +4,8 @@ export const modal = css`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  min-height: 0;
 `;
 
 export const footer = css`
