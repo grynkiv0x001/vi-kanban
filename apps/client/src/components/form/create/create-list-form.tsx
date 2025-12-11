@@ -16,7 +16,6 @@ export const CreateListForm = () => {
   const [createList, { isLoading }] = useCreateListMutation();
 
   const [name, setName] = useState<string>('');
-  const [position, setPosition] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +25,7 @@ export const CreateListForm = () => {
     }
 
     try {
-      await createList({ name, position, projectId: currentProject?.id }).unwrap();
+      await createList({ name, projectId: currentProject?.id }).unwrap();
       dispatch(closeModal());
     } catch (err) {
       console.error('Failed to create a list:', err);
@@ -40,13 +39,6 @@ export const CreateListForm = () => {
         name="name"
         placeholder="List name"
         onChange={(e) => setName(e.target.value)}
-        disabled={isLoading}
-      />
-      <Input
-        type="number"
-        name="position"
-        placeholder="Position"
-        onChange={(e) => setPosition(Number(e.target.value))}
         disabled={isLoading}
       />
     </form>

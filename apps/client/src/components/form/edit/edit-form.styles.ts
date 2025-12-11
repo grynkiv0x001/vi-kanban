@@ -8,6 +8,16 @@ export const form = css`
 
 export const description = css`
   min-height: 400px;
-  min-width: 620px;
+  width: 100%;
+  max-width: 100%;
+  resize: none;
+  
+  @media (max-width: 768px) {
+    min-height: 300px;
+  }
+  
+  @media (max-width: 480px) {
+    min-height: 250px;
+  }
 `;
 

@@ -22,7 +22,6 @@ export const CreateTaskForm = () => {
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [listId, setListId] = useState<number>(ids?.listId || 0);
-  const [position, setPosition] = useState<number | null>(null);
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +34,6 @@ export const CreateTaskForm = () => {
     try {
       await createTask({
         name,
-        position,
         description,
         projectId: currentProject.id,
         listId,
@@ -76,13 +74,6 @@ export const CreateTaskForm = () => {
           autoFocus
         />
       )}
-      <Input
-        type="number"
-        name="position"
-        placeholder="Position"
-        onChange={(e) => setPosition(Number(e.target.value))}
-        disabled={isLoading}
-      />
       <Select
         value={String(listId)}
         onChange={(value) => setListId(Number.parseInt(value))}

@@ -21,15 +21,20 @@ export const EditTaskForm = () => {
 
   const [name, setName] = useState<string>(data?.name || '');
   const [description, setDescription] = useState<string>(data?.description || '');
-  const [position, setPosition] = useState<number | null>(data?.position || null);
   const [listId, setListId] = useState<number>(data?.listId || 0);
-  const [showPreview, setShowPreview] = useState(data?.description || false);
+  const [showPreview, setShowPreview] = useState(true);
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(closeModal());
     }
   }, [isSuccess, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      setShowPreview(true);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +47,6 @@ export const EditTaskForm = () => {
       ...data,
       name,
       description,
-      position,
       listId,
     });
   };
@@ -60,8 +64,7 @@ export const EditTaskForm = () => {
       {(showPreview && description) ? (
         <div
           tabIndex={0}
-          onFocus={() => setShowPreview(false)}
-          onClick={() => setShowPreview(false)}
+          onDoubleClick={() => setShowPreview(false)}
           css={styles.description}
         >
           <Markdown>{description}</Markdown>
@@ -72,20 +75,16 @@ export const EditTaskForm = () => {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          onBlur={() => setShowPreview(true)}
+          onBlur={() => {
+            if (description.trim()) {
+              setShowPreview(true);
+            }
+          }}
           disabled={isLoading}
           styles={styles.description}
           autoFocus
         />
       )}
-      <Input
-        type="number"
-        name="position"
-        placeholder="Position"
-        onChange={(e) => setPosition(Number(e.target.value))}
-        disabled={isLoading}
-        value={position || 0}
-      />
       <Select
         value={String(listId)}
         onChange={(value) => setListId(Number.parseInt(value))}
