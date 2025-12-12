@@ -49,4 +49,7 @@ model Task {
   projectId   Int
   list        List    @relation(fields: [listId], references: [id])
   listId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime?
+  deadline    DateTime?
 }

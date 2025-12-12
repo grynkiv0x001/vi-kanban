@@ -25,7 +25,6 @@ export const getTaskById = (id: number) =>
   prisma.task.findUnique({ where: { id } });
 
 export const createTask = async (data: CreateTaskInput) => {
-  // If position is not provided, set it to the end of the list
   if (data.position === null || data.position === undefined) {
     const tasksInList = await prisma.task.findMany({
       where: {
@@ -49,7 +48,10 @@ export const createTask = async (data: CreateTaskInput) => {
 };
 
 export const updateTask = (data: UpdateTaskInput) =>
-  prisma.task.update({ where: { id: data.id }, data });
+  prisma.task.update({ where: { id: data.id }, data: {
+    ...data,
+    updatedAt: new Date(),
+  } });
 
 export const deleteTask = (id: number) =>
   prisma.task.delete({ where: { id } });
