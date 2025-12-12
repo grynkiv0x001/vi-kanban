@@ -79,12 +79,16 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const updateTask = async (req: Request, res: Response) => {
+  console.log('🪵 ~ req.body: ', JSON.stringify(req.body, null, 2));
   const result = updateTaskSchema.safeParse(req.body);
 
   if (!result.success) {
+    console.log('🪵 ~ validation error: ', result.error);
     res.status(400).json(result.error);
     return;
   }
+
+  console.log('🪵 ~ parsed data: ', JSON.stringify(result.data, null, 2));
 
   try {
     const updated = await service.updateTask(result.data);

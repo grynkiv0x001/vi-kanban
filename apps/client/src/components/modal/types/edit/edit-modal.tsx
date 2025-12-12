@@ -6,7 +6,7 @@ import { closeModal } from '@/store/features/modal';
 import { useDeleteTaskMutation } from '@/store/features/tasks';
 
 import { Button } from '@/components/button';
-import { EditTaskForm } from '@/components/form';
+import { EditTaskForm, EditTaskDetails } from '@/components/form';
 
 import * as styles from './edit-modal.styles';
 
@@ -41,14 +41,29 @@ export const EditModal = () => {
     }
   };
 
+  const renderEditDetails = () => {
+    switch (instance) {
+    case 'task':
+      return <EditTaskDetails />;
+    default:
+      return null;
+    }
+  };
+
   return (
-    <section css={styles.modal}>
+    <div css={styles.modal}>
       <header>
         <h3>Edit {instance}</h3>
       </header>
-      <main>
-        {renderEditForm()}
-      </main>
+      <section css={styles.section}>
+        <main css={styles.main}>
+          {renderEditForm()}
+        </main>
+        <aside css={styles.details}>
+          <h4 css={styles.detailsTitle}>Details</h4>
+          {renderEditDetails()}
+        </aside>
+      </section>
       <footer css={styles.footer}>
         {instance === 'task' && (
           <Button
@@ -62,6 +77,6 @@ export const EditModal = () => {
         )}
         <Button type="submit" form={formId}>Save</Button>
       </footer>
-    </section>
+    </div>
   );
 };

@@ -24,6 +24,9 @@ export const TaskSchema = z.object({
   position: z.number().optional().nullable(),
   projectId: z.number().min(1, 'Project ID is required'),
   listId: z.number().min(1, 'List ID is required'),
+  createdAt: z.date(),
+  updatedAt: z.date().optional().nullable(),
+  deadline: z.date().optional().nullable(),
 });
 
 export type Task = z.infer<typeof TaskSchema>;

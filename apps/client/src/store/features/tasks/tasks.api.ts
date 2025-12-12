@@ -29,7 +29,8 @@ const tasksApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Tasks'],
     }),
-    deleteTask: build.mutation<Task, Omit<Task, 'name'>>({
+    // TODO: Update with during the API overhaul
+    deleteTask: build.mutation<void, { id: number, projectId: number, listId: number }>({
       query: ({ id, projectId, listId }) => ({
         url: `projects/${projectId}/lists/${listId}/tasks/${id}`,
         method: 'DELETE',

@@ -22,19 +22,13 @@ export const EditTaskForm = () => {
   const [name, setName] = useState<string>(data?.name || '');
   const [description, setDescription] = useState<string>(data?.description || '');
   const [listId, setListId] = useState<number>(data?.listId || 0);
-  const [showPreview, setShowPreview] = useState(true);
+  const [showPreview, setShowPreview] = useState<boolean>(!!data?.description);
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(closeModal());
     }
   }, [isSuccess, dispatch]);
-
-  useEffect(() => {
-    return () => {
-      setShowPreview(true);
-    };
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +55,7 @@ export const EditTaskForm = () => {
         value={name}
         disabled={isLoading}
       />
-      {(showPreview && description) ? (
+      {showPreview ? (
         <div
           tabIndex={0}
           onDoubleClick={() => setShowPreview(false)}
